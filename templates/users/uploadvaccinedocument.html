@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Upload Document{% endblock %}
+{% block page_title %}Documents{% endblock %}
+{% block breadcrumb %}Upload Vaccine Document{% endblock %}
+{% block sidebar %}
+<aside class="sidebar">
+  <div class="sb-logo"><div class="sb-logo-icon"><i class="fa fa-shield-virus"></i></div><div><div class="sb-logo-name">VaxCore</div><div class="sb-logo-tagline">Patient Portal</div></div></div>
+  <nav class="sb-nav">
+    <a href="/myapp/user_homepage_get/"                    class="sb-link"><i class="fa fa-gauge-high"></i>          Dashboard</a>
+    <a href="/myapp/user_viewprofile_get/"                  class="sb-link"><i class="fa fa-user-circle"></i>         Profile</a>
+    <a href="/myapp/user_viewchildren_get/"                 class="sb-link"><i class="fa fa-children"></i>            Children</a>
+    <a href="/myapp/user_generalvaccineavailability_get/"   class="sb-link"><i class="fa fa-syringe"></i>             General Vaccines</a>
+    <a href="/myapp/user_emergencyvaccineavailability_get/" class="sb-link"><i class="fa fa-triangle-exclamation"></i>Emergency Vaccines</a>
+    <a href="/myapp/user_viewbooking_get/"                  class="sb-link"><i class="fa fa-calendar-check"></i>      My Bookings</a>
+    <a href="/myapp/user_viewhospital_get/"                 class="sb-link"><i class="fa fa-hospital"></i>            Hospitals</a>
+    <a href="/myapp/user_changepassword_get/"               class="sb-link"><i class="fa fa-lock"></i>               Change Password</a>
+  </nav>
+  <div class="sb-footer"><a href="/myapp/Login_get/" class="sb-logout"><i class="fa fa-right-from-bracket"></i> Logout</a></div>
+</aside>
+{% endblock %}
+{% block topbar_user %}{% endblock %}
+{% block content %}
+<div class="card" style="max-width:520px;">
+  <div class="card-hd"><span class="card-title"><i class="fa fa-file-arrow-up" style="color:var(--purple);margin-right:8px;"></i>Upload Vaccine Document</span></div>
+  <div class="card-body">
+    <div style="text-align:center;padding:30px 20px;border:2px dashed var(--border);border-radius:var(--r);margin-bottom:20px;background:var(--bg);">
+      <i class="fa fa-cloud-arrow-up" style="font-size:48px;color:var(--text-4);margin-bottom:12px;"></i>
+      <div style="font-size:15px;font-weight:600;color:var(--text);">Select file to upload</div>
+      <div style="font-size:12px;color:var(--text-4);margin-bottom:16px;">PDF, JPG, PNG format only</div>
+      <input type="file" class="fc" style="max-width:280px;margin:0 auto;">
+    </div>
+    <div class="fg"><label class="fl">Document Name</label><input type="text" class="fc" placeholder="e.g. Covid-19 Certificate"></div>
+    <div class="fg"><label class="fl">Notes (Optional)</label><textarea class="fc" rows="3" placeholder="Any additional information..."></textarea></div>
+    <button type="button" class="btn btn-teal" style="width:100%;justify-content:center;padding:11px;" onclick="alert('Document upload logic to be implemented in views.py')"><i class="fa fa-upload"></i> Upload Document</button>
+  </div>
+</div>
+{% endblock %}

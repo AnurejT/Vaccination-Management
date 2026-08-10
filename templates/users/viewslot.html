@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block title %}Book Appointment{% endblock %}
+{% block page_title %}Book Appointment{% endblock %}
+{% block breadcrumb %}Select Hospital & Slot{% endblock %}
+
+{% block sidebar %}
+<aside class="sidebar">
+  <div class="sb-logo"><div class="sb-logo-icon"><i class="fa fa-shield-virus"></i></div><div><div class="sb-logo-name">VaxCore</div><div class="sb-logo-tagline">Patient Portal</div></div></div>
+  <nav class="sb-nav">
+    <a href="/myapp/user_homepage_get/"                    class="sb-link"><i class="fa fa-gauge-high"></i>          Dashboard</a>
+    <a href="/myapp/user_viewprofile_get/"                  class="sb-link"><i class="fa fa-user-circle"></i>         Profile</a>
+    <a href="/myapp/user_viewchildren_get/"                 class="sb-link"><i class="fa fa-children"></i>            Children</a>
+    <a href="/myapp/user_generalvaccineavailability_get/"   class="sb-link active"><i class="fa fa-syringe"></i>      General Vaccines</a>
+    <a href="/myapp/user_emergencyvaccineavailability_get/" class="sb-link"><i class="fa fa-triangle-exclamation"></i>Emergency Vaccines</a>
+    <a href="/myapp/user_viewbooking_get/"                  class="sb-link"><i class="fa fa-calendar-check"></i>      My Bookings</a>
+    <a href="/myapp/user_viewhospital_get/"                 class="sb-link"><i class="fa fa-hospital"></i>            Hospitals</a>
+    <a href="/myapp/user_changepassword_get/"               class="sb-link"><i class="fa fa-lock"></i>               Change Password</a>
+  </nav>
+  <div class="sb-footer"><a href="/myapp/Login_get/" class="sb-logout"><i class="fa fa-right-from-bracket"></i> Logout</a></div>
+</aside>
+{% endblock %}
+
+{% block topbar_user %}{% endblock %}
+
+{% block content %}
+<!-- Back button -->
+<div style="margin-bottom:18px;">
+  <a href="/myapp/user_generalvaccineavailability_get/" class="btn btn-ghost btn-sm ajax-link">
+    <i class="fa fa-arrow-left"></i> Back to Vaccines
+  </a>
+</div>
+
+<div class="tbl-wrap">
+  <div class="tbl-hd">
+    <span class="card-title"><i class="fa fa-calendar-check" style="color:var(--teal);margin-right:8px;"></i>Available Slots for Booking</span>
+  </div>
+  <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>Hospital Name</th>
+          <th>Vaccine</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Available Slots</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for i in data %}
+      <tr>
+        <td style="font-weight:600;color:var(--text);">{{ i.HOSPITAL.name }}</td>
+        <td>{{ i.VACCINATION.vaccine_name }}</td>
+        <td>{{ i.date }}</td>
+        <td>{{ i.from_time }} to {{ i.to_time }}</td>
+        <td>
+          {% if i.no_of_slots > 0 %}
+            <span class="badge b-green">{{ i.no_of_slots }} slots available</span>
+          {% else %}
+            <span class="badge b-red">Fully Booked</span>
+          {% endif %}
+        </td>
+        <td>
+          {% if i.no_of_slots > 0 %}
+          <form action="/myapp/user_slotbook_post/{{ i.id }}" method="post" style="display:flex;align-items:center;gap:8px;">
+            {% csrf_token %}
+            <input type="hidden" name="slot_id" value="{{ i.id }}">
+            <select name="booked_for" class="fs" style="padding:4px 8px;font-size:12px;height:28px;" required>
+              <option value="user_{{ current_user.id }}">Myself</option>
+              {% for child in children %}
+                <option value="child_{{ child.id }}">{{ child.name }}</option>
+              {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-teal btn-xs">Book</button>
+          </form>
+          {% else %}
+            <button class="btn btn-outline btn-xs" disabled>Unavailable</button>
+          {% endif %}
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="6" style="text-align:center;padding:40px;color:var(--text-4);">
+          <i class="fa fa-calendar-xmark" style="font-size:28px;display:block;margin-bottom:8px;"></i>
+          No slots available for this vaccine.
+        </td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

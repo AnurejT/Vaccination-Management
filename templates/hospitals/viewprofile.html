@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}Hospital Profile{% endblock %}
+{% block page_title %}Profile{% endblock %}
+{% block breadcrumb %}View Profile{% endblock %}
+{% block sidebar %}
+<aside class="sidebar">
+  <div class="sb-logo"><div class="sb-logo-icon"><i class="fa fa-hospital"></i></div><div><div class="sb-logo-name">VaxCore</div><div class="sb-logo-tagline">Hospital Portal</div></div></div>
+  <nav class="sb-nav">
+    <a href="/myapp/hos_homepage_get/"              class="sb-link"><i class="fa fa-gauge-high"></i> Dashboard</a>
+    <a href="/myapp/hos_viewprofile_get/"           class="sb-link active"><i class="fa fa-building"></i> Profile</a>
+    <a href="/myapp/hos_viewstock_get/"             class="sb-link"><i class="fa fa-boxes-stacked"></i> Manage Stock</a>
+    <a href="/myapp/hos_viewslot_get/"              class="sb-link"><i class="fa fa-calendar"></i> Manage Slots</a>
+    <a href="/myapp/hos_viewbooking_get/"           class="sb-link"><i class="fa fa-calendar-check"></i> Bookings</a>
+    <a href="/myapp/hos_searchuser_get/"            class="sb-link"><i class="fa fa-users"></i> Users</a>
+    <a href="/myapp/hos_viewvaccinedocument_get/"   class="sb-link"><i class="fa fa-file-medical"></i> Approvals</a>
+    <a href="/myapp/hos_viewemergencyvaccine_get/"  class="sb-link"><i class="fa fa-triangle-exclamation"></i> Emergency Vaccines</a>
+    <a href="/myapp/hos_changepassword_get/"        class="sb-link"><i class="fa fa-lock"></i> Change Password</a>
+  </nav>
+  <div class="sb-footer"><a href="/myapp/Login_get/" class="sb-logout"><i class="fa fa-right-from-bracket"></i> Logout</a></div>
+</aside>
+{% endblock %}
+{% block topbar_user %}{% endblock %}
+{% block content %}
+<div style="display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap;">
+  <!-- Photo card -->
+  <div class="card" style="width:220px;flex-shrink:0;text-align:center;">
+    <div class="card-body" style="padding:24px 16px;">
+      <div style="width:100px;height:100px;border-radius:12px;background:var(--blue-light);color:var(--blue);font-size:40px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;overflow:hidden;border:3px solid var(--border);">
+        {% if data.hospital_logo %}<img src="{{ data.hospital_logo }}" style="width:100%;height:100%;object-fit:cover;">{% else %}<i class="fa fa-hospital"></i>{% endif %}
+      </div>
+      <div style="font-size:15px;font-weight:700;color:var(--text);">{{ data.name }}</div>
+      <div style="font-size:11px;color:var(--text-3);margin-top:3px;">{{ data.hospital_type }}</div>
+      <a href="/myapp/hos_editprofile_get/" class="btn btn-blue btn-xs ajax-link" style="margin-top:14px;width:100%;justify-content:center;"><i class="fa fa-pen"></i> Edit Profile</a>
+    </div>
+  </div>
+
+  <!-- Details card -->
+  <div class="card" style="flex:1;min-width:300px;">
+    <div class="card-hd"><span class="card-title"><i class="fa fa-building" style="color:var(--blue);margin-right:8px;"></i>Hospital Information</span></div>
+    <div class="card-body">
+      <div class="prof-grid">
+        <div class="prof-item"><span class="prof-lbl">Hospital Name</span><span class="prof-val">{{ data.name }}</span></div>
+        <div class="prof-item"><span class="prof-lbl">Type</span><span class="prof-val">{{ data.hospital_type }}</span></div>
+        <div class="prof-item"><span class="prof-lbl">Ownership</span><span class="prof-val">{{ data.ownership_model }}</span></div>
+        <div class="prof-item"><span class="prof-lbl">Est. Date</span><span class="prof-val">{{ data.established_date }}</span></div>
+        <div class="prof-item"><span class="prof-lbl">License Number</span><span class="prof-val">{{ data.license_number }}</span></div>
+        <div class="prof-item"><span class="prof-lbl">Status</span><span class="prof-val">{% if data.status == "accepted" %}<span class="badge b-green">Approved</span>{% else %}<span class="badge b-orange">{{ data.status }}</span>{% endif %}</span></div>
+        <div class="prof-item"><span class="prof-lbl">Email</span><span class="prof-val">{{ data.email }}</span></div>
+        <div class="prof-item"><span class="prof-lbl">Phone</span><span class="prof-val">{{ data.phone }}</span></div>
+        <div class="prof-item"><span class="prof-lbl">Street</span><span class="prof-val">{{ data.street }}</span></div>
+        <div class="prof-item"><span class="prof-lbl">City</span><span class="prof-val">{{ data.city }}</span></div>
+        <div class="prof-item"><span class="prof-lbl">State</span><span class="prof-val">{{ data.state }}</span></div>
+        <div class="prof-item"><span class="prof-lbl">Postal Code</span><span class="prof-val">{{ data.postal_code }}</span></div>
+        <div class="prof-item"><span class="prof-lbl">Country</span><span class="prof-val">{{ data.country }}</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+.prof-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.prof-item{padding:11px 0;border-bottom:1px solid var(--border-light);display:flex;flex-direction:column;gap:2px;}
+.prof-item:last-child,.prof-item:nth-last-child(2):nth-child(odd){border-bottom:none;}
+.prof-lbl{font-size:10px;font-weight:700;color:var(--text-4);text-transform:uppercase;letter-spacing:.5px;}
+.prof-val{font-size:13px;font-weight:600;color:var(--text);}
+</style>
+{% endblock %}

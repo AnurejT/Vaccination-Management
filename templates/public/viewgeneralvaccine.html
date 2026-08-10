@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Public - General Vaccines{% endblock %}
+{% block full_page %}
+
+<div style="background:var(--teal-dark);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;color:#fff;box-shadow:var(--sh);">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <div style="width:34px;height:34px;background:rgba(255,255,255,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px;"><i class="fa fa-shield-virus"></i></div>
+    <div>
+      <div style="font-size:17px;font-weight:800;letter-spacing:-.2px;line-height:1.2;">VaxCore</div>
+      <div style="font-size:9px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:1px;">Public Information Portal</div>
+    </div>
+  </div>
+  <div style="display:flex;gap:12px;">
+    <a href="/myapp/pub_homepage_get/" class="btn btn-sm" style="color:#fff;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);"><i class="fa fa-home"></i> Home</a>
+    <a href="/myapp/Login_get/" class="btn btn-sm" style="color:var(--teal-dark);background:#fff;font-weight:700;"><i class="fa fa-right-to-bracket"></i> Login</a>
+  </div>
+</div>
+
+<div class="page-body fade-up" style="max-width:1200px;margin:0 auto;padding:24px;">
+
+  <div class="tbl-wrap">
+    <div class="tbl-hd">
+      <span class="card-title"><i class="fa fa-syringe" style="color:var(--teal);margin-right:8px;"></i>General Vaccines Reference List</span>
+    </div>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr><th>#</th><th>Vaccine Name</th><th>Vaccine ID</th><th>Code</th><th>Manufacturer</th><th>Age Range</th><th>Dosage</th><th>Side Effects</th></tr>
+        </thead>
+        <tbody>
+          {% for i in data %}
+          <tr>
+            <td style="color:var(--text-3);font-weight:600;">{{ forloop.counter }}</td>
+            <td style="font-weight:600;color:var(--text);">{{ i.vaccine_name }}</td>
+            <td style="font-size:12px;color:var(--text-3);">{{ i.vaccine_id }}</td>
+            <td>{{ i.vaccine_code }}</td>
+            <td>{{ i.manufacturer }}</td>
+            <td>{{ i.min_age }} - {{ i.max_age }} years</td>
+            <td>{{ i.dosage_amount }}</td>
+            <td style="font-size:12px;color:var(--text-3);">{{ i.side_effects }}</td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="8" style="text-align:center;padding:40px;color:var(--text-4);"><i class="fa fa-syringe" style="font-size:28px;display:block;margin-bottom:8px;"></i>No general vaccines listed</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

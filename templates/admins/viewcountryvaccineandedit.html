@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}View Country Vaccines{% endblock %}
+{% block page_title %}Country Vaccines{% endblock %}
+{% block breadcrumb %}Manage Country Mappings{% endblock %}
+{% block sidebar %}
+<aside class="sidebar">
+  <div class="sb-logo"><div class="sb-logo-icon"><i class="fa fa-shield-virus"></i></div><div><div class="sb-logo-name">VaxCore</div><div class="sb-logo-tagline">Admin Panel</div></div></div>
+  <nav class="sb-nav">
+    <a href="/myapp/adm_homepage_get/"           class="sb-link"><i class="fa fa-gauge-high"></i>      Dashboard</a>
+      <a href="/myapp/adm_viewusers_get/"           class="sb-link"><i class="fa fa-users"></i>           Users</a>
+    <a href="/myapp/adm_viewhospitals_get/"       class="sb-link"><i class="fa fa-hospital"></i>        Hospitals</a>
+    <a href="/myapp/adm_viewvaccination_get/"     class="sb-link"><i class="fa fa-syringe"></i>         Vaccines</a>
+    <a href="/myapp/adm_addcountryvaccine_get/"   class="sb-link"><i class="fa fa-plus-circle"></i>     Add Country Vaccine</a>
+    <a href="/myapp/adm_viewcountryvaccine_get/"  class="sb-link active"><i class="fa fa-earth-asia"></i> Country Vaccines</a>
+    <a href="/myapp/adm_viewbookingreport_get/"   class="sb-link"><i class="fa fa-calendar-check"></i>  Booking Report</a>
+    <a href="/myapp/adm_viewvaccinereport_get/"   class="sb-link"><i class="fa fa-chart-bar"></i>       Vaccine Report</a>
+    <a href="/myapp/adm_viewvaccinestock_get/"    class="sb-link"><i class="fa fa-boxes-stacked"></i>   Vaccine Stock</a>
+    <a href="/myapp/adm_changepassword_get/"      class="sb-link"><i class="fa fa-lock"></i>            Change Password</a>
+  </nav>
+  <div class="sb-footer"><a href="/myapp/Login_get/" class="sb-logout"><i class="fa fa-right-from-bracket"></i> Logout</a></div>
+</aside>
+{% endblock %}
+{% block topbar_user %}{% endblock %}
+{% block content %}
+<div class="tbl-wrap">
+  <div class="tbl-hd">
+    <span class="card-title"><i class="fa fa-earth-asia" style="color:var(--orange);margin-right:8px;"></i>Country Vaccines</span>
+    <a href="/myapp/adm_addcountryvaccine_get/" class="btn btn-teal btn-sm ajax-link"><i class="fa fa-plus"></i> Add Vaccine</a>
+  </div>
+  <div style="overflow-x:auto;">
+  <table>
+    <thead><tr><th>#</th><th>Country</th><th>Vaccine</th><th>Description</th><th>Action</th></tr></thead>
+    <tbody>
+      {% for i in data %}
+      <tr>
+        <td style="color:var(--text-3);font-weight:600;">{{ forloop.counter }}</td>
+        <td style="font-weight:600;color:var(--text);">{{ i.country }}</td>
+        <td><span class="badge b-teal"><i class="fa fa-syringe"></i> {{ i.VACCINATION.vaccine_name }}</span></td>
+        <td style="font-size:12px;color:var(--text-3);">{{ i.description }}</td>
+        <td>
+          <div style="display:flex;gap:6px;">
+            <a href="/myapp/adm_editcountryvaccine_get/{{ i.id }}" class="btn btn-outline btn-xs ajax-link"><i class="fa fa-pen"></i> Edit</a>
+            <a href="/myapp/adm_deletecountryvaccine_post/{{ i.id }}" class="btn btn-danger btn-xs" onclick="return confirm('Delete this mapping?')"><i class="fa fa-trash"></i></a>
+          </div>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="5" style="text-align:center;padding:40px;color:var(--text-4);"><i class="fa fa-earth-asia" style="font-size:28px;display:block;margin-bottom:8px;"></i>No country vaccines added</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</div>
+{% endblock %}

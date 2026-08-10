@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}Hospital Sign Up{% endblock %}
+{% block full_page %}
+<div class="auth-wrap" style="align-items:flex-start;padding-top:32px;">
+  <div class="auth-box fade-up" style="max-width:560px;">
+    <div class="auth-logo">
+      <div class="auth-logo-icon"><i class="fa fa-hospital"></i></div>
+      <h1>VaxCore</h1><p>Register your hospital</p>
+    </div>
+    {% if messages %}{% for msg in messages %}
+    <div class="alert {% if msg.tags == 'error' %}a-danger{% else %}a-success{% endif %}">
+      <i class="fa fa-circle-{% if msg.tags == 'error' %}xmark{% else %}check{% endif %}"></i> {{ msg }}
+    </div>{% endfor %}{% endif %}
+    <form action="/myapp/hospital_signup_post/" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 16px;">
+        <div class="fg" style="grid-column:1/-1;"><label class="fl">Hospital Name</label><input type="text" class="fc" name="name" placeholder="Full hospital name" required></div>
+
+        <div class="fg">
+            <label class="fl">Hospital Type</label>
+            <select class="fs" name="Htype" required>
+                <option value="">Select type</option>
+                <option>General</option>
+                 <option>Primary Health Centre</option>
+                <option>Multi-Speciality</option>
+                <option>Super-Speciality</option>
+
+            </select></div>
+
+        <div class="fg"
+        ><label class="fl">Ownership Model</label>
+            <select class="fs" name="Hmodel" required>
+                <option value="">Select model</option>
+                <option>Government</option>
+                <option>Private Non-Profit</option>
+                <option>Private For-Profit</option>
+                <option>Public-Private Partnership</option
+                ></select>
+        </div>
+        <div class="fg"><label class="fl">Established Date</label><input type="date" class="fc" name="date" required></div>
+        <div class="fg"><label class="fl">License Number</label><input type="text" class="fc" name="license_number" placeholder="License no." required></div>
+        <div class="fg"><label class="fl">Email</label><input type="email" class="fc" name="email" placeholder="Hospital email" required></div>
+        <div class="fg"><label class="fl">Phone</label><input type="text" class="fc" name="phone" placeholder="Contact number"></div>
+        <div class="fg"><label class="fl">Street</label><input type="text" class="fc" name="street" placeholder="Street address"></div>
+        <div class="fg"><label class="fl">City</label><input type="text" class="fc" name="city" placeholder="City"></div>
+        <div class="fg"><label class="fl">State</label><input type="text" class="fc" name="state" placeholder="State"></div>
+        <div class="fg"><label class="fl">Country</label><input type="text" class="fc" name="country" placeholder="Country"></div>
+        <div class="fg"><label class="fl">Postal Code</label><input type="text" class="fc" name="Pcode" placeholder="ZIP code"></div>
+        <div class="fg" style="grid-column:1/-1;"><label class="fl">Hospital Logo</label><input type="file" class="fc" name="photo" accept="image/*" required></div>
+        <div class="fg"><label class="fl">Password</label><input type="password" class="fc" name="password" placeholder="Create a password" required></div>
+        <div class="fg"><label class="fl">Confirm Password</label><input type="password" class="fc" name="confirm password" placeholder="Confirm password" required></div>
+      </div>
+      <div class="alert a-info" style="margin-top:4px;"><i class="fa fa-circle-info"></i> Your registration will be reviewed by the administrator before activation.</div>
+      <button type="submit" class="btn btn-teal" style="width:100%;justify-content:center;padding:11px;margin-top:8px;"><i class="fa fa-hospital"></i> Register Hospital</button>
+    </form>
+    <div class="divider"></div>
+    <div class="auth-links">
+      <span>Already registered? <a href="/myapp/Login_get/" style="color:var(--teal);">Sign in</a></span>
+      <span>Are you a patient? <a href="/myapp/user_signup_get/" style="color:var(--teal);">Patient signup</a></span>
+    </div>
+  </div>
+</div>
+{% endblock %}

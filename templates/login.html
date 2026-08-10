@@ -1,0 +1,385 @@
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+
+{% block extra_head %}
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+  }
+  .login-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: #fff;
+  }
+  .login-main {
+    display: flex;
+    flex: 1;
+  }
+  .login-left {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px 10%;
+    overflow: hidden;
+    background: #ebf5ff; /* fallback */
+  }
+  .login-left-bg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/media/login_bg.jpg') no-repeat right center;
+    background-size: cover;
+    z-index: 1;
+  }
+  .login-left-content {
+    position: relative;
+    z-index: 2;
+    max-width: 420px;
+  }
+  .login-h1 {
+    font-size: 46px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+  }
+  .login-subtitle {
+    font-size: 22px;
+    font-weight: 500;
+    color: #0f172a;
+    margin-bottom: 16px;
+    line-height: 1.4;
+  }
+  .login-divider {
+    width: 48px;
+    height: 4px;
+    background: #007B7A;
+    margin-bottom: 24px;
+  }
+  .login-desc {
+    font-size: 15px;
+    color: #475569;
+    line-height: 1.6;
+    margin-bottom: 40px;
+  }
+  
+  .login-glass-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  }
+  .login-glass-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 12px;
+  }
+  .login-glass-icon {
+    width: 28px;
+    height: 28px;
+    background: #d1fae5;
+    color: #007B7A;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+  .login-glass-text {
+    font-size: 13px;
+    color: #475569;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  .login-btn-teal {
+    background: #007B7A;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+  }
+  .login-btn-teal:hover {
+    background: #006060;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 123, 122, 0.2);
+  }
+
+  .login-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    background: #fff;
+  }
+  .login-form-wrapper {
+    width: 100%;
+    max-width: 380px;
+  }
+  
+  .login-logo-container {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .login-logo-icon {
+    width: 64px;
+    height: 64px;
+    background: #007B7A;
+    border-radius: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 32px;
+    margin-bottom: 16px;
+  }
+  .login-logo-title {
+    font-size: 32px;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -1px;
+    margin-bottom: 4px;
+  }
+  .login-logo-title span {
+    color: #007B7A;
+  }
+  .login-logo-sub {
+    font-size: 12px;
+    color: #64748b;
+  }
+
+  .input-group {
+    margin-bottom: 20px;
+  }
+  .input-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 8px;
+  }
+  .input-field-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .input-icon {
+    position: absolute;
+    left: 14px;
+    color: #94a3b8;
+    font-size: 16px;
+  }
+  .input-field {
+    width: 100%;
+    height: 48px;
+    padding: 0 16px 0 42px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #0f172a;
+    transition: all 0.2s;
+  }
+  .input-field:focus {
+    outline: none;
+    border-color: #007B7A;
+    box-shadow: 0 0 0 3px rgba(0, 123, 122, 0.1);
+  }
+  .input-action {
+    position: absolute;
+    right: 14px;
+    color: #94a3b8;
+    cursor: pointer;
+  }
+
+  .forgot-link {
+    display: block;
+    text-align: right;
+    font-size: 12px;
+    color: #007B7A;
+    text-decoration: none;
+    margin-top: -8px;
+    margin-bottom: 24px;
+  }
+  .forgot-link:hover { text-decoration: underline; }
+
+  .login-submit {
+    width: 100%;
+    height: 48px;
+    background: #007B7A;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .login-submit:hover {
+    background: #006060;
+    box-shadow: 0 4px 12px rgba(0, 123, 122, 0.2);
+  }
+
+  .login-links {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 13px;
+    color: #64748b;
+  }
+  .login-links a {
+    color: #007B7A;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .login-links a:hover { text-decoration: underline; }
+
+  .login-footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 30px 40px;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+  }
+  .footer-feature {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .feature-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid #cbd5e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #007B7A;
+    font-size: 20px;
+    background: #fff;
+  }
+  .feature-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 4px;
+  }
+  .feature-desc {
+    font-size: 12px;
+    color: #64748b;
+    max-width: 180px;
+    line-height: 1.4;
+  }
+
+  @media(max-width: 900px) {
+    .login-main { flex-direction: column; }
+    .login-left { display: none; }
+    .login-footer { flex-direction: column; gap: 20px; text-align: center; }
+    .footer-feature { flex-direction: column; gap: 8px; }
+  }
+</style>
+{% endblock %}
+
+{% block full_page %}
+<div class="login-container">
+  <div class="login-main">
+    
+    <!-- LEFT SIDE -->
+    <div class="login-left">
+      <div class="login-left-bg"></div>
+      <div class="login-left-content">
+        <h1 class="login-h1">Welcome Back!</h1>
+        <div class="login-subtitle">
+          Please login to your<br><span style="color:#007B7A; font-weight:700;">VaxCore</span> account
+        </div>
+        <div class="login-divider"></div>
+        <div class="login-desc">
+          Your trusted platform for vaccine appointment booking and management.
+        </div>
+
+        <div class="login-glass-card">
+          <div class="login-glass-header">
+            <div class="login-glass-icon"><i class="fa fa-earth-americas"></i></div>
+            Public Information Portal
+          </div>
+          <div class="login-glass-text">
+            Explore general vaccines, partner hospitals, and international vaccine mandates without logging in.
+          </div>
+          <a href="/myapp/pub_homepage_get/" class="login-btn-teal">Explore Portal <i class="fa fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="login-right">
+      <div class="login-form-wrapper">
+        <div class="login-logo-container">
+          <div class="login-logo-icon">
+            <i class="fa fa-shield-halved"></i>
+          </div>
+          <div class="login-logo-title">Vax<span>Core</span></div>
+          <div class="login-logo-sub">Vaccine Appointment Management System</div>
+        </div>
+
+        {% if messages %}
+          {% for msg in messages %}
+            <div class="alert a-danger" style="margin-bottom:20px; background:#fef2f2; color:#b91c1c; padding:12px; border-radius:8px; border:1px solid #fecaca; font-size:13px;">
+              <i class="fa fa-circle-xmark"></i> {{ msg }}
+            </div>
+          {% endfor %}
+        {% endif %}
+
+        <form action="/myapp/login_post/" method="post" autocomplete="off">
+          {% csrf_token %}
+          <div class="input-group">
+            <label class="input-label" for="username">Username</label>
+            <div class="input-field-container">
+              <i class="fa fa-user input-icon"></i>
+              <input type="text" class="input-field" name="username" id="username">
+            </div>
+          </div>
+
+          <div class="input-group" style="margin-bottom:12px;">
+            <label class="input-label" for="password">Password</label>
+            <div class="input-field-container">
+              <i class="fa fa-lock input-icon"></i>
+              <input type="password" class="input-field" name="password" id="password">
+              <i class="fa fa-eye input-action"></i>
+            </div>
+          </div>
+
+          <a href="/myapp/forgetview_get/" class="forgot-link">Forgot Password?</a>
+
+          <button type="submit" class="login-submit">Login</button>
+        </form>
+
+        <div class="login-links">
+          <div style="margin-bottom:8px;">New User? <a href="/myapp/user_signup_get/">Register here</a></div>
+          <div>Hospital registration? <a href="/myapp/hospital_signup_get/">Click here</a></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

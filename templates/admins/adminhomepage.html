@@ -1,0 +1,381 @@
+{% extends 'base.html' %}
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block extra_head %}
+<style>
+  body { background: #fff; }
+  .tn-navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    height: 80px;
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+  }
+  .tn-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .tn-logo-icon {
+    width: 36px;
+    height: 36px;
+    background: #0056D2; /* Exact blue from mockup */
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 16px;
+  }
+  .tn-logo-text {
+    display: flex;
+    flex-direction: column;
+  }
+  .tn-logo-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: #0056D2;
+    line-height: 1.1;
+  }
+  .tn-logo-sub {
+    font-size: 10px;
+    color: var(--text-3);
+  }
+
+  .tn-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    height: 100%;
+  }
+  .tn-link {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-2);
+    text-decoration: none;
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+  }
+  .tn-link:hover {
+    color: #0056D2;
+  }
+  .tn-link.active {
+    color: #0056D2;
+  }
+  .tn-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #0056D2;
+    border-radius: 3px 3px 0 0;
+  }
+
+  .tn-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  .tn-bell {
+    font-size: 18px;
+    color: var(--text-2);
+    position: relative;
+    cursor: pointer;
+  }
+  .tn-bell::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 8px;
+    height: 8px;
+    background: #ef4444;
+    border-radius: 50%;
+    border: 2px solid #fff;
+  }
+  .tn-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+  }
+  .tn-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #e0f2fe;
+    color: #0056D2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+  .tn-username {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-2);
+  }
+
+  .tn-hero {
+    position: relative;
+    width: 100%;
+    height: 480px;
+    background: #ebf5ff; /* Match the left gradient */
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+  .tn-hero-bg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 70%;
+    height: 100%;
+    background: url('/media/admin_homepage_bg.jpg') no-repeat right center;
+    background-size: cover;
+    z-index: 1;
+    mask-image: linear-gradient(to right, transparent, black 30%);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 30%);
+  }
+  .tn-hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  .tn-h1 {
+    font-size: 48px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+  }
+  .tn-p {
+    font-size: 18px;
+    color: #475569;
+    max-width: 480px;
+    line-height: 1.6;
+    margin-bottom: 32px;
+  }
+  .tn-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #0056D2;
+    color: #fff;
+    padding: 14px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .tn-btn:hover {
+    background: #0047b3;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 86, 210, 0.2);
+  }
+
+  .tn-dropdown {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+  .tn-dropdown-menu {
+    position: absolute;
+    top: calc(100% - 10px);
+    left: 0;
+    background: #fff;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    min-width: 200px;
+    opacity: 0;
+    visibility: hidden;
+    flex-direction: column;
+    padding: 8px 0;
+    z-index: 100;
+    transition: all 0.2s;
+    transform: translateY(10px);
+  }
+  .tn-dropdown:hover .tn-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .tn-dropdown-item {
+    padding: 10px 20px;
+    color: var(--text-2);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background 0.2s;
+    display: block;
+  }
+  .tn-dropdown-item:hover {
+    background: #f1f5f9;
+    color: #0056D2;
+  }
+</style>
+{% endblock %}
+
+{% block full_page %}
+<!-- TOP NAVIGATION -->
+<div class="tn-navbar">
+  <div class="tn-logo">
+    <div class="tn-logo-icon"><i class="fa fa-shield-halved"></i></div>
+    <div class="tn-logo-text">
+      <span class="tn-logo-title">VaxCore</span>
+      <span class="tn-logo-sub">Vaccination Management System</span>
+    </div>
+  </div>
+  
+  <div class="tn-links">
+    <a href="/myapp/adm_homepage_get/" class="tn-link active">Dashboard</a>
+    <a href="/myapp/adm_viewusers_get/" class="tn-link">Users</a>
+    
+    <div class="tn-dropdown">
+      <div class="tn-link" style="cursor:default;">Hospitals <i class="fa fa-chevron-down" style="font-size:10px;margin-left:4px;"></i></div>
+      <div class="tn-dropdown-menu">
+        <a href="/myapp/adm_viewhospitals_get/" class="tn-dropdown-item">View Hospitals</a>
+        <a href="/myapp/adm_viewacceptedhospitals_get/" class="tn-dropdown-item">Accepted Hospitals</a>
+        <a href="/myapp/adm_viewrejectedhospitals_get/" class="tn-dropdown-item">Rejected Hospitals</a>
+      </div>
+    </div>
+    
+    <div class="tn-dropdown">
+      <div class="tn-link" style="cursor:default;">Vaccines <i class="fa fa-chevron-down" style="font-size:10px;margin-left:4px;"></i></div>
+      <div class="tn-dropdown-menu">
+        <a href="/myapp/adm_viewvaccination_get/" class="tn-dropdown-item">Global Vaccines</a>
+        <a href="/myapp/adm_viewvaccinestock_get/" class="tn-dropdown-item">Vaccine Stock</a>
+        <a href="/myapp/adm_viewcountryvaccine_get/" class="tn-dropdown-item">Country Vaccines</a>
+      </div>
+    </div>
+
+    <div class="tn-dropdown">
+      <div class="tn-link" style="cursor:default;">Reports <i class="fa fa-chevron-down" style="font-size:10px;margin-left:4px;"></i></div>
+      <div class="tn-dropdown-menu">
+        <a href="/myapp/adm_viewbookingreport_get/" class="tn-dropdown-item">Booking Report</a>
+        <a href="/myapp/adm_viewvaccinereport_get/" class="tn-dropdown-item">Vaccine Report</a>
+      </div>
+    </div>
+
+    <a href="/myapp/adm_changepassword_get/" class="tn-link">Change Password</a>
+  </div>
+  
+  <div class="tn-right">
+    <div class="tn-bell"><i class="fa-regular fa-bell"></i></div>
+    <div class="tn-dropdown">
+      <div class="tn-user">
+        <div class="tn-avatar"><i class="fa-regular fa-user"></i></div>
+        <span class="tn-username">Admin <i class="fa fa-chevron-down" style="font-size:10px;margin-left:4px;color:var(--text-4);"></i></span>
+      </div>
+      <div class="tn-dropdown-menu" style="left:auto; right:0; top:calc(100% + 15px); min-width:160px;">
+        <a href="/myapp/logout/" class="tn-dropdown-item" style="color:#ef4444;"><i class="fa fa-right-from-bracket" style="margin-right:8px;"></i> Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FULL WIDTH HERO BANNER -->
+<div class="tn-hero">
+  <div class="tn-hero-bg"></div>
+  <div class="tn-hero-content">
+    <h1 class="tn-h1">Welcome Admin</h1>
+    <p class="tn-p">
+      Manage users, hospitals, vaccines and appointments efficiently from one place.
+    </p>
+    
+  </div>
+</div>
+
+<!-- DYNAMIC CONTENT VIEWER (Loads tables via AJAX) -->
+<div id="dynamic-content-area" style="max-width:1440px; margin: 0 auto; padding: 0 40px 80px 40px; display:none;">
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const contentArea = document.getElementById('dynamic-content-area');
+  
+  function loadContent(url) {
+    // Show spinner and scroll down
+    contentArea.style.display = 'block';
+    contentArea.innerHTML = '<div style="text-align:center; padding:60px;"><i class="fa fa-circle-notch fa-spin fa-3x" style="color:#0056D2;"></i><div style="margin-top:16px; color:var(--text-3); font-weight:600;">Loading data...</div></div>';
+    
+    // Smooth scroll to the content area
+    setTimeout(() => {
+      contentArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+
+    // Fetch the page content
+    fetch(url)
+      .then(response => response.text())
+      .then(html => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        // Extract the .page-body (or fallback) from the loaded page
+        const extractedContent = doc.querySelector('.page-body') || doc.querySelector('.tbl-wrap') || doc.querySelector('.card');
+        
+        if (extractedContent) {
+          contentArea.innerHTML = '';
+          contentArea.appendChild(extractedContent);
+          
+          // Re-initialize DataTable for dynamically loaded tables
+          if (typeof $ !== 'undefined' && $.fn.dataTable) {
+            $(contentArea).find('table').DataTable({
+              "pageLength": 10,
+              "language": {
+                "search": "",
+                "searchPlaceholder": "Search records...",
+                "lengthMenu": "Show _MENU_ entries"
+              },
+              "destroy": true
+            });
+          }
+        } else {
+          contentArea.innerHTML = '<div style="text-align:center; padding:40px; color:red;">Could not load the requested data.</div>';
+        }
+      })
+      .catch(err => {
+        contentArea.innerHTML = '<div style="text-align:center; padding:40px; color:red;">An error occurred while fetching data.</div>';
+      });
+  }
+
+  // Intercept clicks using event delegation
+  document.addEventListener('click', function(e) {
+    const link = e.target.closest('a');
+    if (!link) return;
+    
+    const href = link.getAttribute('href');
+    if (!href || href === '/myapp/adm_homepage_get/' || href.startsWith('#') || href === '/myapp/logout/') return;
+
+    // Check if it's a navbar link, dropdown item, or explicitly tagged ajax-link
+    if (link.classList.contains('tn-link') || link.classList.contains('tn-dropdown-item') || link.classList.contains('ajax-link')) {
+      e.preventDefault();
+      
+      // Update active state if it's a navbar interaction
+      if (link.classList.contains('tn-link') || link.classList.contains('tn-dropdown-item')) {
+        document.querySelectorAll('.tn-link').forEach(l => l.classList.remove('active'));
+        if (link.classList.contains('tn-dropdown-item')) {
+          link.closest('.tn-dropdown').querySelector('.tn-link').classList.add('active');
+        } else {
+          link.classList.add('active');
+        }
+      }
+      
+      loadContent(href);
+    }
+  });
+});
+</script>
+{% endblock %}

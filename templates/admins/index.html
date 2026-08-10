@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+{% block breadcrumb %}Admin Panel{% endblock %}
+
+{% block sidebar %}
+<aside class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-icon"><i class="fa fa-shield-virus"></i></div>
+    <div><div class="sb-logo-name">VaxCore</div><div class="sb-logo-tagline">Admin Panel</div></div>
+  </div>
+  <nav class="sb-nav">
+    <a href="/myapp/adm_homepage_get/" class="sb-link active"><i class="fa fa-gauge-high"></i> Dashboard</a>
+      <a href="/myapp/adm_viewusers_get/" class="sb-link"><i class="fa fa-users"></i> Users</a>
+    <a href="/myapp/adm_viewhospitals_get/" class="sb-link"><i class="fa fa-hospital"></i> Hospitals</a>
+    <a href="/myapp/adm_viewvaccination_get/" class="sb-link"><i class="fa fa-syringe"></i> Vaccines</a>
+    <a href="/myapp/adm_viewcountryvaccine_get/" class="sb-link"><i class="fa fa-earth-asia"></i> Vaccine-Country Map</a>
+    <a href="/myapp/adm_viewbookingreport_get/" class="sb-link"><i class="fa fa-calendar-check"></i> Bookings</a>
+    <a href="/myapp/adm_viewvaccinereport_get/" class="sb-link"><i class="fa fa-chart-bar"></i> Stock Reports</a>
+
+    <a href="/myapp/adm_viewvaccinestock_get/" class="sb-link"><i class="fa fa-file-alt"></i> Documents</a>
+    <a href="/myapp/adm_changepassword_get/" class="sb-link"><i class="fa fa-cog"></i> Settings</a>
+  </nav>
+  <div class="sb-footer">
+    <a href="/myapp/Login_get/" class="sb-logout"><i class="fa fa-right-from-bracket"></i> Logout</a>
+  </div>
+</aside>
+{% endblock %}
+
+{% block topbar_user %}{% endblock %}
+
+{% block content %}
+<!-- Stats -->
+<div class="stats stats-4" style="margin-bottom:22px;">
+  <div class="sc">
+    <div class="sc-icon blue"><i class="fa fa-hospital"></i></div>
+    <div><div class="sc-val">128</div><div class="sc-lbl">Total Hospitals</div></div>
+  </div>
+  <div class="sc">
+    <div class="sc-icon teal"><i class="fa fa-syringe"></i></div>
+    <div><div class="sc-val">45</div><div class="sc-lbl">Total Vaccines</div></div>
+  </div>
+  <div class="sc">
+    <div class="sc-icon orange"><i class="fa fa-calendar-check"></i></div>
+    <div><div class="sc-val">2,356</div><div class="sc-lbl">Total Bookings</div></div>
+  </div>
+  <div class="sc">
+    <div class="sc-icon green"><i class="fa fa-boxes-stacked"></i></div>
+    <div><div class="sc-val">18,742</div><div class="sc-lbl">Total Stock</div></div>
+  </div>
+</div>
+
+<!-- Main content row -->
+<div class="g2">
+  <!-- Recent Bookings Table -->
+  <div class="tbl-wrap">
+    <div class="tbl-hd">
+      <span class="card-title">Recent Bookings</span>
+      <a href="/myapp/adm_viewbookingreport_get/" class="btn btn-ghost btn-xs">View All</a>
+    </div>
+    <table>
+      <thead>
+        <tr><th>Booking ID</th><th>User</th><th>Vaccine</th><th>Hospital</th><th>Date</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+      {% for i in recent_bookings|default:data %}
+      <tr>
+        <td style="color:var(--teal);font-weight:600;">#BK{{ i.id }}</td>
+        <td>{{ i.USERS.name }}</td>
+        <td>{{ i.SLOT.VACCINATION.vaccine_name }}</td>
+        <td>{{ i.SLOT.HOSPITAL.name }}</td>
+        <td style="font-size:12px;">{{ i.SLOT.date }}</td>
+        <td><span class="badge b-green"><i class="fa fa-circle" style="font-size:6px;"></i> Confirmed</span></td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="6" style="text-align:center;padding:32px;color:var(--text-4);">No recent bookings</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Vaccine Stock Overview -->
+  <div class="card">
+    <div class="card-hd"><span class="card-title">Vaccine Stock Overview</span></div>
+    <div class="card-body" style="text-align:center;">
+      <div style="width:140px;height:140px;border-radius:50%;background:conic-gradient(var(--teal) 0% 42%,var(--blue) 42% 58%,var(--orange) 58% 72%,var(--green) 72% 100%);margin:0 auto 18px;display:flex;align-items:center;justify-content:center;">
+        <div style="width:90px;height:90px;border-radius:50%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+          <div style="font-size:18px;font-weight:800;color:var(--text);">18,742</div>
+          <div style="font-size:9px;color:var(--text-3);">Total Stock</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;text-align:left;">
+        <div style="display:flex;align-items:center;justify-content:space-between;font-size:12px;">
+          <span style="display:flex;align-items:center;gap:7px;"><span style="width:10px;height:10px;border-radius:3px;background:var(--teal);display:inline-block;"></span> CoviShield</span><span style="font-weight:600;">7,542</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;font-size:12px;">
+          <span style="display:flex;align-items:center;gap:7px;"><span style="width:10px;height:10px;border-radius:3px;background:var(--blue);display:inline-block;"></span> Covaxin</span><span style="font-weight:600;">4,218</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;font-size:12px;">
+          <span style="display:flex;align-items:center;gap:7px;"><span style="width:10px;height:10px;border-radius:3px;background:var(--orange);display:inline-block;"></span> Flu Vaccine</span><span style="font-weight:600;">2,456</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;font-size:12px;">
+          <span style="display:flex;align-items:center;gap:7px;"><span style="width:10px;height:10px;border-radius:3px;background:var(--green);display:inline-block;"></span> HPV Vaccine</span><span style="font-weight:600;">2,234</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

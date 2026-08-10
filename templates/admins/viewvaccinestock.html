@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Vaccine Stock{% endblock %}
+{% block page_title %}Vaccine Stock{% endblock %}
+{% block breadcrumb %}Hospital Stock Levels{% endblock %}
+{% block sidebar %}
+<aside class="sidebar">
+  <div class="sb-logo"><div class="sb-logo-icon"><i class="fa fa-shield-virus"></i></div><div><div class="sb-logo-name">VaxCore</div><div class="sb-logo-tagline">Admin Panel</div></div></div>
+  <nav class="sb-nav">
+    <a href="/myapp/adm_homepage_get/"           class="sb-link"><i class="fa fa-gauge-high"></i>      Dashboard</a>
+        <a href="/myapp/adm_viewusers_get/"           class="sb-link"><i class="fa fa-users"></i>           Users</a>
+    <a href="/myapp/adm_viewhospitals_get/"       class="sb-link"><i class="fa fa-hospital"></i>        Hospitals</a>
+    <a href="/myapp/adm_viewvaccination_get/"     class="sb-link"><i class="fa fa-syringe"></i>         Vaccines</a>
+    <a href="/myapp/adm_viewcountryvaccine_get/"  class="sb-link"><i class="fa fa-earth-asia"></i>      Country Vaccines</a>
+    <a href="/myapp/adm_viewbookingreport_get/"   class="sb-link"><i class="fa fa-calendar-check"></i>  Booking Report</a>
+    <a href="/myapp/adm_viewvaccinereport_get/"   class="sb-link"><i class="fa fa-chart-bar"></i>       Vaccine Report</a>
+
+    <a href="/myapp/adm_viewvaccinestock_get/"    class="sb-link active"><i class="fa fa-boxes-stacked"></i> Vaccine Stock</a>
+    <a href="/myapp/adm_changepassword_get/"      class="sb-link"><i class="fa fa-lock"></i>            Change Password</a>
+  </nav>
+  <div class="sb-footer"><a href="/myapp/Login_get/" class="sb-logout"><i class="fa fa-right-from-bracket"></i> Logout</a></div>
+</aside>
+{% endblock %}
+{% block topbar_user %}{% endblock %}
+{% block content %}
+<div class="tbl-wrap">
+  <div class="tbl-hd">
+    <span class="card-title"><i class="fa fa-boxes-stacked" style="color:var(--green);margin-right:8px;"></i>Vaccine Stock Overview</span>
+    <span class="badge b-green">{{ data|length }} records</span>
+  </div>
+  <div style="overflow-x:auto;">
+  <table>
+    <thead><tr><th>#</th><th>Vaccine</th><th>Code</th><th>Hospital</th><th>City</th><th>Stock Available</th></tr></thead>
+    <tbody>
+      {% for i in data %}
+      <tr>
+        <td style="color:var(--text-3);font-weight:600;">{{ forloop.counter }}</td>
+        <td style="font-weight:600;color:var(--text);">{{ i.VACCINATION.vaccine_name }}</td>
+        <td><span class="badge b-teal">{{ i.VACCINATION.vaccine_code }}</span></td>
+        <td>{{ i.HOSPITAL.name }}</td>
+        <td style="font-size:12px;">{{ i.HOSPITAL.city }}</td>
+        <td>
+          {% if i.quantity_available|add:0 > 50 %}
+            <span class="badge b-green"><i class="fa fa-circle" style="font-size:6px;"></i> {{ i.quantity_available }}</span>
+          {% elif i.quantity_available|add:0 > 10 %}
+            <span class="badge b-orange"><i class="fa fa-circle" style="font-size:6px;"></i> {{ i.quantity_available }}</span>
+          {% else %}
+            <span class="badge b-red"><i class="fa fa-circle" style="font-size:6px;"></i> {{ i.quantity_available }}</span>
+          {% endif %}
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-4);"><i class="fa fa-boxes-stacked" style="font-size:28px;display:block;margin-bottom:8px;"></i>No stock records found</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</div>
+{% endblock %}

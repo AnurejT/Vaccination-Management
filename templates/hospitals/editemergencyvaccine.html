@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}Edit Emergency Vaccine{% endblock %}
+{% block page_title %}Inventory{% endblock %}
+{% block breadcrumb %}Edit Emergency Stock{% endblock %}
+{% block sidebar %}
+<aside class="sidebar">
+  <div class="sb-logo"><div class="sb-logo-icon"><i class="fa fa-hospital"></i></div><div><div class="sb-logo-name">VaxCore</div><div class="sb-logo-tagline">Hospital Portal</div></div></div>
+  <nav class="sb-nav">
+    <a href="/myapp/hos_homepage_get/"              class="sb-link"><i class="fa fa-gauge-high"></i> Dashboard</a>
+    <a href="/myapp/hos_viewprofile_get/"           class="sb-link"><i class="fa fa-building"></i> Profile</a>
+    <a href="/myapp/hos_viewstock_get/"             class="sb-link"><i class="fa fa-boxes-stacked"></i> Manage Stock</a>
+    <a href="/myapp/hos_viewslot_get/"              class="sb-link"><i class="fa fa-calendar"></i> Manage Slots</a>
+    <a href="/myapp/hos_viewbooking_get/"           class="sb-link"><i class="fa fa-calendar-check"></i> Bookings</a>
+    <a href="/myapp/hos_searchuser_get/"            class="sb-link"><i class="fa fa-users"></i> Users</a>
+    <a href="/myapp/hos_viewvaccinedocument_get/"   class="sb-link"><i class="fa fa-file-medical"></i> Approvals</a>
+    <a href="/myapp/hos_viewemergencyvaccine_get/"  class="sb-link active"><i class="fa fa-triangle-exclamation"></i> Emergency Vaccines</a>
+    <a href="/myapp/hos_changepassword_get/"        class="sb-link"><i class="fa fa-lock"></i> Change Password</a>
+  </nav>
+  <div class="sb-footer"><a href="/myapp/Login_get/" class="sb-logout"><i class="fa fa-right-from-bracket"></i> Logout</a></div>
+</aside>
+{% endblock %}
+{% block topbar_user %}{% endblock %}
+{% block content %}
+<div style="margin-bottom:18px;">
+  <a href="/myapp/hos_viewemergencyvaccine_get/" class="btn btn-ghost btn-sm">
+    <i class="fa fa-arrow-left"></i> Back to Emergency Vaccines
+  </a>
+</div>
+
+<div class="card" style="max-width:520px;">
+  <div class="card-hd"><span class="card-title"><i class="fa fa-pen" style="color:var(--red);margin-right:8px;"></i>Edit Emergency Vaccine Stock</span></div>
+  <div class="card-body">
+    <form action="/myapp/hos_editemergencyvaccine_post/" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="id" value="{{ data.id }}">
+
+      <div class="fg">
+        <label class="fl">Vaccine</label>
+        <select name="vaccine_id" class="fs" required>
+          {% for i in vaccines %}
+            <option value="{{ i.id }}" {% if data.VACCINATION.id == i.id %}selected{% endif %}>{{ i.vaccine_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="fg">
+        <label class="fl">Available Stock</label>
+        <input type="number" class="fc" name="quantity available" value="{{ data.quantity_available }}" required>
+      </div>
+
+      <button type="submit" class="btn btn-danger" style="width:100%;justify-content:center;padding:11px;margin-top:10px;"><i class="fa fa-floppy-disk"></i> Save Changes</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

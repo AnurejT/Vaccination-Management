@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %}Edit Child{% endblock %}
+{% block page_title %}Children{% endblock %}
+{% block breadcrumb %}Edit Child{% endblock %}
+{% block sidebar %}
+<aside class="sidebar">
+  <div class="sb-logo"><div class="sb-logo-icon"><i class="fa fa-shield-virus"></i></div><div><div class="sb-logo-name">VaxCore</div><div class="sb-logo-tagline">Patient Portal</div></div></div>
+  <nav class="sb-nav">
+    <a href="/myapp/user_homepage_get/"                    class="sb-link"><i class="fa fa-gauge-high"></i>          Dashboard</a>
+    <a href="/myapp/user_viewprofile_get/"                  class="sb-link"><i class="fa fa-user-circle"></i>         Profile</a>
+    <a href="/myapp/user_viewchildren_get/"                 class="sb-link active"><i class="fa fa-children"></i>     Children</a>
+    <a href="/myapp/user_generalvaccineavailability_get/"   class="sb-link"><i class="fa fa-syringe"></i>             General Vaccines</a>
+    <a href="/myapp/user_emergencyvaccineavailability_get/" class="sb-link"><i class="fa fa-triangle-exclamation"></i>Emergency Vaccines</a>
+    <a href="/myapp/user_viewbooking_get/"                  class="sb-link"><i class="fa fa-calendar-check"></i>      My Bookings</a>
+    <a href="/myapp/user_viewhospital_get/"                 class="sb-link"><i class="fa fa-hospital"></i>            Hospitals</a>
+    <a href="/myapp/user_changepassword_get/"               class="sb-link"><i class="fa fa-lock"></i>               Change Password</a>
+  </nav>
+  <div class="sb-footer"><a href="/myapp/Login_get/" class="sb-logout"><i class="fa fa-right-from-bracket"></i> Logout</a></div>
+</aside>
+{% endblock %}
+{% block topbar_user %}{% endblock %}
+{% block content %}
+<!-- Back button -->
+<div style="margin-bottom:18px;">
+  <a href="/myapp/user_viewchildren_get/" class="btn btn-ghost btn-sm ajax-link">
+    <i class="fa fa-arrow-left"></i> Back to Children
+  </a>
+</div>
+
+<div class="card" style="max-width:520px;">
+  <div class="card-hd"><span class="card-title"><i class="fa fa-pen-to-square" style="color:var(--teal);margin-right:8px;"></i>Edit Child Profile</span></div>
+  <div class="card-body">
+    <form action="/myapp/user_editchildren_post/" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="hidden" name="id" value="{{ data.id }}">
+      
+      <div class="fg">
+        <label class="fl">Child Photo</label>
+        <div style="display:flex;align-items:center;gap:14px;margin-top:6px;">
+          <div style="width:50px;height:50px;border-radius:50%;background:var(--purple-light);color:var(--purple);display:flex;align-items:center;justify-content:center;font-size:20px;overflow:hidden;border:2px solid var(--border);">
+            {% if data.photo %}<img src="{{ data.photo }}" style="width:100%;height:100%;object-fit:cover;">{% else %}<i class="fa fa-child"></i>{% endif %}
+          </div>
+          <input type="file" class="fc" name="photo" style="flex:1;">
+        </div>
+      </div>
+
+      <div class="fg"><label class="fl">Child's Name</label><input type="text" class="fc" name="name" value="{{ data.name }}"></div>
+      
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        <div class="fg">
+          <label class="fl">Gender</label>
+          <div style="display:flex;gap:15px;margin-top:8px;">
+            <label style="font-size:13px;display:flex;align-items:center;gap:6px;cursor:pointer;"><input type="radio" name="gender" value="Male" {% if data.gender == "Male" %}checked{% endif %}> Male</label>
+            <label style="font-size:13px;display:flex;align-items:center;gap:6px;cursor:pointer;"><input type="radio" name="gender" value="Female" {% if data.gender == "Female" %}checked{% endif %}> Female</label>
+          </div>
+        </div>
+        <div class="fg"><label class="fl">Date of Birth</label><input type="date" class="fc" name="dob" value="{{ data.dob | date:'Y-m-d' }}"></div>
+      </div>
+
+      <div class="fg">
+        <label class="fl">Blood Group</label>
+        <select class="fs" name="blood group">
+          <option value="A+" {% if data.blood_group == "A+" %}selected{% endif %}>A+</option><option value="A-" {% if data.blood_group == "A-" %}selected{% endif %}>A-</option>
+          <option value="B+" {% if data.blood_group == "B+" %}selected{% endif %}>B+</option><option value="B-" {% if data.blood_group == "B-" %}selected{% endif %}>B-</option>
+          <option value="O+" {% if data.blood_group == "O+" %}selected{% endif %}>O+</option><option value="O-" {% if data.blood_group == "O-" %}selected{% endif %}>O-</option>
+          <option value="AB+" {% if data.blood_group == "AB+" %}selected{% endif %}>AB+</option><option value="AB-" {% if data.blood_group == "AB-" %}selected{% endif %}>AB-</option>
+        </select>
+      </div>
+
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:10px;">
+        <a href="/myapp/user_viewchildren_get/" class="btn btn-outline btn-sm ajax-link">Cancel</a>
+        <button type="submit" class="btn btn-teal btn-sm"><i class="fa fa-floppy-disk"></i> Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

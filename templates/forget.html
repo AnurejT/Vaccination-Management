@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Forgot Password{% endblock %}
+{% block full_page %}
+<div class="auth-wrap">
+  <div class="auth-box fade-up">
+    <div class="auth-logo">
+      <div class="auth-logo-icon"><i class="fa fa-key"></i></div>
+      <h1>VaxCore</h1>
+      <p>Account Recovery</p>
+    </div>
+    {% if messages %}{% for msg in messages %}
+    <div class="alert a-warning"><i class="fa fa-triangle-exclamation"></i> {{ msg }}</div>
+    {% endfor %}{% endif %}
+    <h2 style="font-size:18px;font-weight:700;margin-bottom:4px;">Reset your password</h2>
+    <p style="font-size:12px;color:var(--text-3);margin-bottom:20px;">Enter your registered email to receive a new password.</p>
+    <form action="/myapp/forgotpassword_post/" method="post">
+      {% csrf_token %}
+      <div class="fg">
+        <label class="fl">Email Address</label>
+        <input type="email" class="fc" name="email" placeholder="Enter your registered email">
+      </div>
+      <button type="submit" class="btn btn-teal" style="width:100%;justify-content:center;padding:11px;"><i class="fa fa-paper-plane"></i> Send New Password</button>
+    </form>
+    <div class="divider"></div>
+    <div class="auth-links">
+      <a href="/myapp/Login_get/"><i class="fa fa-arrow-left" style="font-size:10px;"></i> Back to Login</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

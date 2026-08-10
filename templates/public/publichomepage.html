@@ -1,0 +1,270 @@
+{% extends 'base.html' %}
+{% block title %}Public Portal{% endblock %}
+
+{% block extra_head %}
+<style>
+  body { background: #fff; }
+  .tn-navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    height: 80px;
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+  }
+  .tn-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .tn-logo-icon {
+    width: 36px;
+    height: 36px;
+    background: #007B7A; /* Teal scheme from Login */
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 16px;
+  }
+  .tn-logo-text {
+    display: flex;
+    flex-direction: column;
+  }
+  .tn-logo-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: #007B7A;
+    line-height: 1.1;
+  }
+  .tn-logo-sub {
+    font-size: 10px;
+    color: var(--text-3);
+  }
+
+  .tn-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    height: 100%;
+  }
+  .tn-link {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-2);
+    text-decoration: none;
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+  }
+  .tn-link:hover {
+    color: #007B7A;
+  }
+  .tn-link.active {
+    color: #007B7A;
+  }
+  .tn-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #007B7A;
+    border-radius: 3px 3px 0 0;
+  }
+
+  .tn-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .tn-btn-login {
+    background: #007B7A;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .tn-btn-login:hover {
+    background: #006060;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 123, 122, 0.2);
+  }
+  
+  .tn-hero {
+    position: relative;
+    width: 100%;
+    height: 480px;
+    background: #f0fdfa; /* Teal light gradient */
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+  .tn-hero-bg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 70%;
+    height: 100%;
+    background: url('https://images.unsplash.com/photo-1579389083046-e3df9c2b3325?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') no-repeat right center;
+    background-size: cover;
+    z-index: 1;
+    mask-image: linear-gradient(to right, transparent, black 30%);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 30%);
+  }
+  .tn-hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  .tn-h1 {
+    font-size: 48px;
+    font-weight: 800;
+    color: #134e4a;
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+  }
+  .tn-p {
+    font-size: 18px;
+    color: #0f766e;
+    max-width: 480px;
+    line-height: 1.6;
+    margin-bottom: 32px;
+  }
+</style>
+{% endblock %}
+
+{% block full_page %}
+<!-- TOP NAVIGATION -->
+<div class="tn-navbar">
+  <div class="tn-logo">
+    <div class="tn-logo-icon"><i class="fa fa-earth-americas"></i></div>
+    <div class="tn-logo-text">
+      <span class="tn-logo-title">VaxCore</span>
+      <span class="tn-logo-sub">Public Information Portal</span>
+    </div>
+  </div>
+  
+  <div class="tn-links">
+    <a href="/myapp/pub_homepage_get/" class="tn-link active">Home</a>
+    <a href="/myapp/pub_generalvaccine_get/" class="tn-link">General Vaccines</a>
+    <a href="/myapp/pub_viewcountryvaccine_get/" class="tn-link">Country Vaccines</a>
+    <a href="/myapp/pub_viewhospital_get/" class="tn-link">Partner Hospitals</a>
+  </div>
+  
+  <div class="tn-right">
+    <a href="/myapp/user_signup_get/" style="color:#007B7A; font-weight:600; font-size:14px; text-decoration:none; margin-right:12px;">Register</a>
+    <a href="/myapp/Login_get/" class="tn-btn-login">Login to Portal <i class="fa fa-arrow-right" style="margin-left:6px;"></i></a>
+  </div>
+</div>
+
+<!-- FULL WIDTH HERO BANNER -->
+<div class="tn-hero">
+  <div class="tn-hero-bg"></div>
+  <div class="tn-hero-content">
+    <h1 class="tn-h1">Public Health Records</h1>
+    <p class="tn-p">
+      Explore general vaccines, partner hospitals, and international vaccine mandates without needing an account.
+    </p>
+  </div>
+</div>
+
+
+
+<!-- DYNAMIC CONTENT VIEWER (Loads tables via AJAX) -->
+<div id="dynamic-content-area" style="max-width:1200px; margin: 0 auto; padding: 0 40px 80px 40px; display:none;">
+</div>
+
+<style>
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--sh-md);
+    border-color: transparent !important;
+  }
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const contentArea = document.getElementById('dynamic-content-area');
+  
+  function loadContent(url) {
+    // Show spinner and scroll down
+    contentArea.style.display = 'block';
+    contentArea.innerHTML = '<div style="text-align:center; padding:60px;"><i class="fa fa-circle-notch fa-spin fa-3x" style="color:#007B7A;"></i><div style="margin-top:16px; color:var(--text-3); font-weight:600;">Loading data...</div></div>';
+    
+    // Smooth scroll to the content area
+    setTimeout(() => {
+      contentArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+
+    // Fetch the page content
+    fetch(url)
+      .then(response => response.text())
+      .then(html => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        // Extract the .tbl-wrap from the loaded page
+        const tableContent = doc.querySelector('.tbl-wrap');
+        
+        if (tableContent) {
+          contentArea.innerHTML = '';
+          contentArea.appendChild(tableContent);
+          
+          // Re-initialize DataTable for dynamically loaded tables
+          if (typeof $ !== 'undefined' && $.fn.dataTable) {
+            $(contentArea).find('table').DataTable({
+              "pageLength": 10,
+              "language": {
+                "search": "",
+                "searchPlaceholder": "Search records...",
+                "lengthMenu": "Show _MENU_ entries"
+              },
+              "destroy": true
+            });
+          }
+        } else {
+          contentArea.innerHTML = '<div style="text-align:center; padding:40px; color:red;">Could not load the requested data.</div>';
+        }
+      })
+      .catch(err => {
+        contentArea.innerHTML = '<div style="text-align:center; padding:40px; color:red;">An error occurred while fetching data.</div>';
+      });
+  }
+
+  // Intercept clicks on navbar links and grid cards
+  const links = document.querySelectorAll('.tn-link, .card');
+  links.forEach(link => {
+    const href = link.getAttribute('href');
+    // Only intercept if it's one of the feature pages
+    if (href && href !== '/myapp/pub_homepage_get/' && href.startsWith('/myapp/pub_')) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Update active state on navbar
+        document.querySelectorAll('.tn-link').forEach(l => l.classList.remove('active'));
+        if (this.classList.contains('tn-link')) {
+          this.classList.add('active');
+        } else {
+          // If a card was clicked, find the corresponding navbar link and make it active
+          const navLink = document.querySelector(`.tn-link[href="${href}"]`);
+          if (navLink) navLink.classList.add('active');
+        }
+
+        loadContent(href);
+      });
+    }
+  });
+});
+</script>
+{% endblock %}

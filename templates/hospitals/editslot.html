@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Edit Schedule Slot{% endblock %}
+{% block page_title %}Scheduling{% endblock %}
+{% block breadcrumb %}Edit Slot{% endblock %}
+{% block sidebar %}
+<aside class="sidebar">
+  <div class="sb-logo"><div class="sb-logo-icon"><i class="fa fa-hospital"></i></div><div><div class="sb-logo-name">VaxCore</div><div class="sb-logo-tagline">Hospital Portal</div></div></div>
+  <nav class="sb-nav">
+    <a href="/myapp/hos_homepage_get/"              class="sb-link"><i class="fa fa-gauge-high"></i> Dashboard</a>
+    <a href="/myapp/hos_viewprofile_get/"           class="sb-link"><i class="fa fa-building"></i> Profile</a>
+    <a href="/myapp/hos_viewstock_get/"             class="sb-link"><i class="fa fa-boxes-stacked"></i> Manage Stock</a>
+    <a href="/myapp/hos_viewslot_get/"              class="sb-link active"><i class="fa fa-calendar"></i> Manage Slots</a>
+    <a href="/myapp/hos_viewbooking_get/"           class="sb-link"><i class="fa fa-calendar-check"></i> Bookings</a>
+    <a href="/myapp/hos_searchuser_get/"            class="sb-link"><i class="fa fa-users"></i> Users</a>
+    <a href="/myapp/hos_viewvaccinedocument_get/"   class="sb-link"><i class="fa fa-file-medical"></i> Approvals</a>
+    <a href="/myapp/hos_viewemergencyvaccine_get/"  class="sb-link"><i class="fa fa-triangle-exclamation"></i> Emergency Vaccines</a>
+    <a href="/myapp/hos_changepassword_get/"        class="sb-link"><i class="fa fa-lock"></i> Change Password</a>
+  </nav>
+  <div class="sb-footer"><a href="/myapp/Login_get/" class="sb-logout"><i class="fa fa-right-from-bracket"></i> Logout</a></div>
+</aside>
+{% endblock %}
+{% block topbar_user %}{% endblock %}
+{% block content %}
+<div style="margin-bottom:18px;">
+  <a href="/myapp/hos_viewslot_get/" class="btn btn-ghost btn-sm">
+    <i class="fa fa-arrow-left"></i> Back to Slots
+  </a>
+</div>
+
+<div class="card" style="max-width:520px;">
+  <div class="card-hd"><span class="card-title"><i class="fa fa-pen" style="color:var(--blue);margin-right:8px;"></i>Edit Schedule Slot</span></div>
+  <div class="card-body">
+    <form action="/myapp/hos_editslot_post/" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="id" value="{{ data.id }}">
+      
+      <div class="fg"><label class="fl">Date</label><input type="date" class="fc" name="date" value="{{ data.date|date:'Y-m-d' }}" required></div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        <div class="fg"><label class="fl">From Time</label><input type="time" class="fc" name="from time" value="{{ data.from_time|time:'H:i' }}" required></div>
+        <div class="fg"><label class="fl">To Time</label><input type="time" class="fc" name="to time" value="{{ data.to_time|time:'H:i' }}" required></div>
+      </div>
+
+      <div class="fg"><label class="fl">Number of Slots</label><input type="number" class="fc" name="slot no" value="{{ data.no_of_slots }}" required></div>
+
+      <button type="submit" class="btn btn-blue" style="width:100%;justify-content:center;padding:11px;margin-top:10px;"><i class="fa fa-floppy-disk"></i> Update Slot</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
