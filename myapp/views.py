@@ -433,9 +433,9 @@ def user_searchcountryvaccine_get(request):
     data = CountryVaccine.objects.all()
     return render(request, 'users/searchcountryvaccine.html', {'data':data})
 
-def user_searchgeneralvaccine_get(request):
-    data = Vaccination.objects.filter(emergency_vaccine='no')
-    return render(request, 'users/searchgeneralvaccine.html', {'data':data})
+def user_searchglobalvaccine_get(request):
+    data = Vaccination.objects.all()
+    return render(request, 'users/searchglobalvaccine.html', {'data': data})
 
 def user_viewnotifications_get(request):
     return render(request, 'users/viewnotifications.html')

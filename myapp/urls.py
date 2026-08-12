@@ -61,7 +61,7 @@ urlpatterns = [
     path('user_changepassword_get/', views.user_changepassword_get),
     path('user_changepassword_post/', views.user_changepassword_post),
     path('user_searchcountryvaccine_get/', views.user_searchcountryvaccine_get),
-    path('user_searchgeneralvaccine_get/', views.user_searchgeneralvaccine_get),
+    path('user_searchglobalvaccine_get/', views.user_searchglobalvaccine_get),
     path('user_viewnotifications_get/', views.user_viewnotifications_get),
     path('user_addchildren_get/', views.user_addchildren_get),
     path('user_addchildren_post/', views.user_addchildren_post),

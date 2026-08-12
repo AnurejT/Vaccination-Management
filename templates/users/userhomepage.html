@@ -250,22 +250,30 @@
     <a href="/myapp/user_homepage_get/" class="tn-link active">Home</a>
     <a href="/myapp/user_viewbooking_get/" class="tn-link">Bookings</a>
     <a href="/myapp/user_viewhospital_get/" class="tn-link">Hospitals</a>
-    
-    <div class="tn-dropdown">
+
+          <div class="tn-dropdown">
       <div class="tn-link" style="cursor:default;">Vaccines <i class="fa fa-chevron-down" style="font-size:10px;margin-left:4px;"></i></div>
+      <div class="tn-dropdown-menu">
+        <a href="/myapp/user_searchglobalvaccine_get/" class="tn-dropdown-item">Global Vaccines</a>
+        <a href="/myapp/user_searchcountryvaccine_get/" class="tn-dropdown-item">Country Vaccines</a>
+      </div>
+    </div>
+
+
+      <div class="tn-dropdown">
+      <div class="tn-link" style="cursor:default;">Availability <i class="fa fa-chevron-down" style="font-size:10px;margin-left:4px;"></i></div>
       <div class="tn-dropdown-menu">
         <a href="/myapp/user_generalvaccineavailability_get/" class="tn-dropdown-item">General Vaccines</a>
         <a href="/myapp/user_emergencyvaccineavailability_get/" class="tn-dropdown-item">Emergency Vaccines</a>
-        <a href="/myapp/user_searchcountryvaccine_get/" class="tn-dropdown-item">Country Vaccines</a>
-        <a href="/myapp/user_uploadvaccinedocument_get/" class="tn-dropdown-item">Upload Vaccine Document</a>
       </div>
     </div>
-    
+
     <div class="tn-dropdown">
-      <div class="tn-link" style="cursor:default;">Family <i class="fa fa-chevron-down" style="font-size:10px;margin-left:4px;"></i></div>
+      <div class="tn-link" style="cursor:default;">Children <i class="fa fa-chevron-down" style="font-size:10px;margin-left:4px;"></i></div>
       <div class="tn-dropdown-menu">
-        <a href="/myapp/user_viewchildren_get/" class="tn-dropdown-item">My Children</a>
-        <a href="/myapp/user_addchildren_get/" class="tn-dropdown-item">Add Child</a>
+                  <a href="/myapp/user_addchildren_get/" class="tn-dropdown-item">Add Children</a>
+
+        <a href="/myapp/user_viewchildren_get/" class="tn-dropdown-item">View Children</a>
       </div>
     </div>
     
@@ -277,14 +285,7 @@
       </div>
     </div>
     
-    <div class="tn-dropdown">
-      <div class="tn-link" style="cursor:default;">Account <i class="fa fa-chevron-down" style="font-size:10px;margin-left:4px;"></i></div>
-      <div class="tn-dropdown-menu">
-        <a href="/myapp/user_viewprofile_get/" class="tn-dropdown-item">View Profile</a>
-        <a href="/myapp/user_editprofile_get/" class="tn-dropdown-item">Edit Profile</a>
-        <a href="/myapp/user_changepassword_get/" class="tn-dropdown-item">Change Password</a>
-      </div>
-    </div>
+
   </div>
   
   <div class="tn-right">
@@ -297,6 +298,9 @@
         <span class="tn-username">{{ data.name }} <i class="fa fa-chevron-down" style="font-size:10px;margin-left:4px;color:var(--text-4);"></i></span>
       </div>
       <div class="tn-dropdown-menu" style="left:auto; right:0; top:calc(100% + 15px); min-width:160px;">
+        <a href="/myapp/user_viewprofile_get/" class="tn-dropdown-item"><i class="fa fa-id-card" style="margin-right:8px;"></i> View Profile</a>
+        <a href="/myapp/user_changepassword_get/" class="tn-dropdown-item"><i class="fa fa-lock" style="margin-right:8px;"></i> Change Password</a>
+        <div style="height:1px;background:var(--border-light);margin:4px 0;"></div>
         <a href="/myapp/logout/" class="tn-dropdown-item" style="color:#ef4444;"><i class="fa fa-right-from-bracket" style="margin-right:8px;"></i> Logout</a>
       </div>
     </div>
@@ -406,7 +410,16 @@ document.addEventListener("DOMContentLoaded", function() {
     if (!link) return;
     
     const href = link.getAttribute('href');
-    if (!href || href === '/myapp/user_homepage_get/' || href.startsWith('#') || href === '/myapp/logout/') return;
+    if (href === '/myapp/user_homepage_get/') {
+      e.preventDefault();
+      document.querySelectorAll('.tn-link').forEach(l => l.classList.remove('active'));
+      if(link.classList.contains('tn-link')) link.classList.add('active');
+      contentArea.style.display = 'none';
+      contentArea.innerHTML = '';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    if (!href || href.startsWith('#') || href === '/myapp/logout/') return;
 
     if (link.classList.contains('tn-link') || link.classList.contains('tn-dropdown-item') || link.classList.contains('ajax-link')) {
       e.preventDefault();
@@ -414,7 +427,10 @@ document.addEventListener("DOMContentLoaded", function() {
       if (link.classList.contains('tn-link') || link.classList.contains('tn-dropdown-item')) {
         document.querySelectorAll('.tn-link').forEach(l => l.classList.remove('active'));
         if (link.classList.contains('tn-dropdown-item')) {
-          link.closest('.tn-dropdown').querySelector('.tn-link').classList.add('active');
+          const parentTnLink = link.closest('.tn-dropdown').querySelector('.tn-link');
+          if (parentTnLink) {
+            parentTnLink.classList.add('active');
+          }
         } else {
           link.classList.add('active');
         }

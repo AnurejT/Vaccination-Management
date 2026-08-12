@@ -3,36 +3,19 @@
 {% block page_title %}Hospitals{% endblock %}
 {% block breadcrumb %}Rejected{% endblock %}
 {% block sidebar %}
-<aside class="sidebar">
-  <div class="sb-logo"><div class="sb-logo-icon"><i class="fa fa-shield-virus"></i></div><div><div class="sb-logo-name">VaxCore</div><div class="sb-logo-tagline">Admin Panel</div></div></div>
-  <nav class="sb-nav">
-    <a href="/myapp/adm_homepage_get/"             class="sb-link"><i class="fa fa-gauge-high"></i>      Dashboard</a>
-        <a href="/myapp/adm_viewusers_get/"             class="sb-link"><i class="fa fa-users"></i>           Users</a>
-    <a href="/myapp/adm_viewhospitals_get/"         class="sb-link"><i class="fa fa-hospital"></i>        Hospitals</a>
-    <a href="/myapp/adm_viewacceptedhospitals_get/" class="sb-link"><i class="fa fa-circle-check"></i>   Accepted</a>
-    <a href="/myapp/adm_viewrejectedhospitals_get/" class="sb-link active"><i class="fa fa-circle-xmark"></i> Rejected</a>
-    <a href="/myapp/adm_viewvaccination_get/"       class="sb-link"><i class="fa fa-syringe"></i>         Vaccines</a>
-    <a href="/myapp/adm_viewcountryvaccine_get/"    class="sb-link"><i class="fa fa-earth-asia"></i>      Country Vaccines</a>
-    <a href="/myapp/adm_viewbookingreport_get/"     class="sb-link"><i class="fa fa-calendar-check"></i>  Booking Report</a>
-    <a href="/myapp/adm_viewvaccinereport_get/"     class="sb-link"><i class="fa fa-chart-bar"></i>       Vaccine Report</a>
-
-    <a href="/myapp/adm_viewvaccinestock_get/"      class="sb-link"><i class="fa fa-boxes-stacked"></i>   Vaccine Stock</a>
-    <a href="/myapp/adm_changepassword_get/"        class="sb-link"><i class="fa fa-lock"></i>            Change Password</a>
-  </nav>
-  <div class="sb-footer"><a href="/myapp/Login_get/" class="sb-logout"><i class="fa fa-right-from-bracket"></i> Logout</a></div>
-</aside>
 {% endblock %}
-{% block topbar_user %}{% endblock %}
+{% block topbar_user %}
+{% endblock %}
 {% block content %}
 
 
 <div class="tbl-wrap">
   <div class="tbl-hd">
-    <span class="card-title"><i class="fa fa-circle-xmark" style="color:var(--red);margin-right:8px;"></i>Rejected Hospitals</span>
+    <span class="card-title">Rejected Hospitals</span>
   </div>
   <div style="overflow-x:auto;">
   <table>
-    <thead><tr><th>#</th><th>Name</th><th>Type</th><th>Ownership</th><th>Est. Date</th><th>License</th><th>Email</th><th>Phone</th><th>City</th><th>State</th><th>Country</th><th>Logo</th></tr></thead>
+    <thead><tr><th>SI NO</th><th>Name</th><th>Type</th><th>Ownership</th><th>Est. Date</th><th>License</th><th>Email</th><th>Phone</th><th>City</th><th>State</th><th>Country</th><th>Logo</th></tr></thead>
     <tbody>
       {% for i in data %}
       <tr>

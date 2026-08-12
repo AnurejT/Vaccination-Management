@@ -20,16 +20,17 @@
 
   <div class="tbl-wrap">
     <div class="tbl-hd">
-      <span class="card-title"><i class="fa fa-hospital" style="color:var(--orange);margin-right:8px;"></i>Partner Hospitals & Clinics</span>
+      <span class="card-title">Partner Hospitals & Clinics</span>
     </div>
     <div style="overflow-x:auto;">
       <table>
         <thead>
-          <tr><th>Hospital</th><th>Type & Model</th><th>Established</th><th>Contact</th><th>Address</th></tr>
+          <tr><th>SI NO</th><th>Hospital</th><th>Type & Model</th><th>Established</th><th>Contact</th><th>Address</th></tr>
         </thead>
         <tbody>
           {% for i in data %}
           <tr>
+              <td>{{ forloop.counter }}</td>
             <td>
               <div style="display:flex;align-items:center;gap:10px;">
                 {% if i.hospital_logo %}

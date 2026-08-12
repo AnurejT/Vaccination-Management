@@ -20,16 +20,17 @@
 
   <div class="tbl-wrap">
     <div class="tbl-hd">
-      <span class="card-title"><i class="fa fa-globe" style="color:var(--blue);margin-right:8px;"></i>International / Country Specific Vaccines</span>
+      <span class="card-title">International / Country Specific Vaccines</span>
     </div>
     <div style="overflow-x:auto;">
       <table>
         <thead>
-          <tr><th>Country</th><th>Vaccine</th><th>Code</th><th>Age Range</th><th>Dosage</th><th>Emergency</th><th>Description</th></tr>
+          <tr><th>SI NO</th><th>Country</th><th>Vaccine</th><th>Code</th><th>Age Range</th><th>Dosage</th><th>Emergency</th><th>Description</th></tr>
         </thead>
         <tbody>
           {% for i in data %}
           <tr>
+            <td style="font-weight:700;color:var(--text);">{{ forloop.counter }}</td>
             <td style="font-weight:700;color:var(--text);"><i class="fa fa-location-dot" style="color:var(--blue);margin-right:4px;"></i> {{ i.country }}</td>
             <td style="font-weight:600;">{{ i.VACCINATION.vaccine_name }}</td>
             <td style="font-size:12px;color:var(--text-3);">{{ i.VACCINATION.vaccine_code }}</td>

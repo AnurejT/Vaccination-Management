@@ -3,22 +3,9 @@
 {% block page_title %}Profile{% endblock %}
 {% block breadcrumb %}View Profile{% endblock %}
 {% block sidebar %}
-<aside class="sidebar">
-  <div class="sb-logo"><div class="sb-logo-icon"><i class="fa fa-shield-virus"></i></div><div><div class="sb-logo-name">VaxCore</div><div class="sb-logo-tagline">Patient Portal</div></div></div>
-  <nav class="sb-nav">
-    <a href="/myapp/user_homepage_get/"                    class="sb-link"><i class="fa fa-gauge-high"></i>          Dashboard</a>
-    <a href="/myapp/user_viewprofile_get/"                  class="sb-link active"><i class="fa fa-user-circle"></i>  Profile</a>
-    <a href="/myapp/user_viewchildren_get/"                 class="sb-link"><i class="fa fa-children"></i>            Children</a>
-    <a href="/myapp/user_generalvaccineavailability_get/"   class="sb-link"><i class="fa fa-syringe"></i>             General Vaccines</a>
-    <a href="/myapp/user_emergencyvaccineavailability_get/" class="sb-link"><i class="fa fa-triangle-exclamation"></i>Emergency Vaccines</a>
-    <a href="/myapp/user_viewbooking_get/"                  class="sb-link"><i class="fa fa-calendar-check"></i>      My Bookings</a>
-    <a href="/myapp/user_viewhospital_get/"                 class="sb-link"><i class="fa fa-hospital"></i>            Hospitals</a>
-    <a href="/myapp/user_changepassword_get/"               class="sb-link"><i class="fa fa-lock"></i>               Change Password</a>
-  </nav>
-  <div class="sb-footer"><a href="/myapp/Login_get/" class="sb-logout"><i class="fa fa-right-from-bracket"></i> Logout</a></div>
-</aside>
 {% endblock %}
-{% block topbar_user %}{% endblock %}
+{% block topbar_user %}
+{% endblock %}
 {% block content %}
 <div style="display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap;">
   <!-- Photo card -->
@@ -34,7 +21,7 @@
 
   <!-- Details card -->
   <div class="card" style="flex:1;min-width:280px;">
-    <div class="card-hd"><span class="card-title"><i class="fa fa-user" style="color:var(--teal);margin-right:8px;"></i>Personal Information</span></div>
+    <div class="card-hd"><span class="card-title">Personal Information</span></div>
     <div class="card-body">
       <div class="prof-grid">
         <div class="prof-item"><span class="prof-lbl">Full Name</span><span class="prof-val">{{ data.name }}</span></div>

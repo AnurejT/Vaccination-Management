@@ -8,13 +8,10 @@
 {% endblock %}
 {% block content %}
 <div style="margin-bottom:18px;">
-  <a href="/myapp/hos_viewstock_get/" class="btn btn-ghost btn-sm ajax-link">
-    <i class="fa fa-arrow-left"></i> Back to Inventory
-  </a>
 </div>
 
 <div class="card" style="max-width:520px;">
-  <div class="card-hd"><span class="card-title"><i class="fa fa-plus-circle" style="color:var(--green);margin-right:8px;"></i>Register Vaccine Stock</span></div>
+  <div class="card-hd"><span class="card-title">Add Vaccine Stock</span></div>
   <div class="card-body">
     <form action="/myapp/hos_addstock_post/" method="post">
       {% csrf_token %}

@@ -15,7 +15,7 @@
   </div>
   <div style="overflow-x:auto;">
   <table>
-    <thead><tr><th>SI NO</th><th>Name</th><th>Vaccine ID</th><th>Code</th><th>Manufacturer</th><th>Expiry</th><th>Dosage</th><th>Age Range</th><th>Emergency</th><th>Side Effects</th><th>Action</th></tr></thead>
+    <thead><tr><th>SI NO</th><th>Name</th><th>Vaccine ID</th><th>Code</th><th>Manufacturer</th><th>Expiry</th><th>Age Range</th><th>Side Effects</th></tr></thead>
     <tbody>
       {% for i in data %}
       <tr>
@@ -25,22 +25,8 @@
         <td style="font-size:12px;">{{ i.vaccine_code }}</td>
         <td>{{ i.manufacturer }}</td>
         <td style="font-size:12px;">{{ i.expiration_date }}</td>
-        <td>{{ i.dosage_amount }}</td>
         <td style="font-size:12px;">{{ i.min_age }}–{{ i.max_age }} yrs</td>
-        <td>
-          {% if i.emergency_vaccine == 'yes' %}
-            <span class="badge b-red"><i class="fa fa-triangle-exclamation"></i> Yes</span>
-          {% else %}
-            <span class="badge b-gray">No</span>
-          {% endif %}
-        </td>
         <td style="font-size:12px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="{{ i.side_effects }}">{{ i.side_effects }}</td>
-        <td>
-          <div style="display:flex;gap:6px;">
-            <a href="/myapp/adm_editvaccine_get/{{ i.id }}" class="btn btn-outline btn-xs ajax-link"><i class="fa fa-pen"></i> Edit</a>
-            <a href="/myapp/adm_deletevaccine_post/{{ i.id }}" class="btn btn-danger btn-xs ajax-link"><i class="fa fa-trash"></i></a>
-          </div>
-        </td>
       </tr>
       {% endfor %}
     </tbody>
