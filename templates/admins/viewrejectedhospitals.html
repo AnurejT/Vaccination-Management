@@ -45,8 +45,6 @@
         <td>{{ i.city }}</td><td>{{ i.state }}</td><td>{{ i.country }}</td>
         <td><img src="{{ i.hospital_logo }}" style="width:40px;height:40px;border-radius:8px;object-fit:cover;border:1px solid var(--border);" /></td>
       </tr>
-      {% empty %}
-      <tr><td colspan="12" style="text-align:center;padding:40px;color:var(--text-4);"><i class="fa fa-inbox" style="font-size:28px;display:block;margin-bottom:8px;"></i>No rejected hospitals</td></tr>
       {% endfor %}
     </tbody>
   </table>

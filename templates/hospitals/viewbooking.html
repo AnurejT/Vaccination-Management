@@ -29,7 +29,7 @@
   <div style="overflow-x:auto;">
   <table>
     <thead>
-      <tr><th>SI NO</th><th>Booked Date</th><th>Name</th><th>Vaccine</th><th>Vaccine id</th><th>Date</th><th>Time</th><th>Slot No</th><th>Available Slots </th><th>Action</th></tr>
+      <tr><th>SI NO</th><th>Booked Date</th><th>Name</th><th>Vaccine</th><th>Vaccine id</th><th>Date</th><th>Time</th><th>Slot No</th><th>Available Slots </th><th>Document</th><th>Action</th></tr>
     </thead>
     <tbody>
     {% for i in data %}
@@ -52,11 +52,13 @@
       <td style="font-size:12px;">{{ i.SLOT.from_time }}</td>
       <td><span class="badge b-gray">{{ i.slot_no }}</span></td>
       <td><span class="badge b-green">{{ i.SLOT.no_of_slots }}</span></td>
+      <td style="font-weight:600;">
+        <div class="doc-btns-container status-container">{% with docs=i.USERS.vaccinedocument_set.all %}{% for doc in docs reversed %}{% if doc.HOSPITAL_id == i.SLOT.HOSPITAL_id and doc.typee == i.typee %}<span class="doc-btn">{% if doc.status == 'pending' %}<a href="/myapp/hos_approvedocument_post/{{ doc.id }}" class="btn btn-outline btn-xs ajax-link" style="color:var(--teal);border-color:var(--teal);"><i class="fa fa-check"></i> Approve</a> {% elif doc.status == 'approved' %}<span class="badge b-green">Approved</span>{% else %}<span class="badge b-red">{{ doc.status }}</span>{% endif %}</span>{% endif %}{% endfor %}{% endwith %}</div>
+      </td>
       <td>
         <a href="/myapp/hos_viewbookingmore_get/{{ i.id }}" class="btn btn-outline btn-xs"><i class="fa fa-eye"></i> More Details</a>
       </td>
     </tr>
-    {% empty %}
     {% endfor %}
     </tbody>
   </table>

@@ -102,7 +102,7 @@
   .tn-hero {
     position: relative;
     width: 100%;
-    height: 480px;
+    height: calc(100vh - 80px);
     background: #f0fdfa; /* Teal light gradient */
     display: flex;
     align-items: center;
@@ -203,11 +203,6 @@ document.addEventListener("DOMContentLoaded", function() {
     contentArea.style.display = 'block';
     contentArea.innerHTML = '<div style="text-align:center; padding:60px;"><i class="fa fa-circle-notch fa-spin fa-3x" style="color:#007B7A;"></i><div style="margin-top:16px; color:var(--text-3); font-weight:600;">Loading data...</div></div>';
     
-    // Smooth scroll to the content area
-    setTimeout(() => {
-      contentArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
-
     // Fetch the page content
     fetch(url)
       .then(response => response.text())
@@ -233,6 +228,11 @@ document.addEventListener("DOMContentLoaded", function() {
               "destroy": true
             });
           }
+          
+          // Smooth scroll to the content area now that it is fully loaded
+          setTimeout(() => {
+            contentArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 50);
         } else {
           contentArea.innerHTML = '<div style="text-align:center; padding:40px; color:red;">Could not load the requested data.</div>';
         }

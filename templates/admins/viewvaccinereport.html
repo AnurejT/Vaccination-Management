@@ -44,8 +44,6 @@
         <td>{% if i.emergency_vaccine == 'yes' %}<span class="badge b-red"><i class="fa fa-triangle-exclamation"></i> Yes</span>{% else %}<span class="badge b-gray">No</span>{% endif %}</td>
         <td style="font-size:12px;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="{{ i.side_effects }}">{{ i.side_effects }}</td>
       </tr>
-      {% empty %}
-      <tr><td colspan="10" style="text-align:center;padding:40px;color:var(--text-4);"><i class="fa fa-chart-bar" style="font-size:28px;display:block;margin-bottom:8px;"></i>No vaccines found</td></tr>
       {% endfor %}
     </tbody>
   </table>

@@ -126,7 +126,7 @@
   .tn-hero {
     position: relative;
     width: 100%;
-    height: 480px;
+    height: calc(100vh - 80px);
     background: #ebf5ff; /* Match the left gradient */
     display: flex;
     align-items: center;
@@ -241,7 +241,7 @@
   </div>
   
   <div class="tn-links">
-    <a href="/myapp/adm_homepage_get/" class="tn-link active">Dashboard</a>
+    <a href="/myapp/adm_homepage_get/" class="tn-link active">Home</a>
     <a href="/myapp/adm_viewusers_get/" class="tn-link">Users</a>
     
     <div class="tn-dropdown">
@@ -307,49 +307,83 @@
 document.addEventListener("DOMContentLoaded", function() {
   const contentArea = document.getElementById('dynamic-content-area');
   
-  function loadContent(url) {
-    // Show spinner and scroll down
-    contentArea.style.display = 'block';
-    contentArea.innerHTML = '<div style="text-align:center; padding:60px;"><i class="fa fa-circle-notch fa-spin fa-3x" style="color:#0056D2;"></i><div style="margin-top:16px; color:var(--text-3); font-weight:600;">Loading data...</div></div>';
+  function processHTMLResponse(html, finalUrl) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    const extractedContent = doc.querySelector('.page-body') || doc.querySelector('.tbl-wrap') || doc.querySelector('.card');
     
-    // Smooth scroll to the content area
-    setTimeout(() => {
-      contentArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
+    if (extractedContent) {
+      contentArea.innerHTML = '';
+      contentArea.appendChild(extractedContent);
+      
+      if (typeof $ !== 'undefined' && $.fn.dataTable) {
+        $(contentArea).find('table').DataTable({
+          "pageLength": 10,
+          "language": {
+            "search": "",
+            "searchPlaceholder": "Search records...",
+            "lengthMenu": "Show _MENU_ entries"
+          },
+          "destroy": true
+        });
+      }
+      
+      setTimeout(() => {
+        contentArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 50);
+    } else {
+      if (finalUrl) {
+        window.location.href = finalUrl;
+      } else {
+        contentArea.innerHTML = '<div style="text-align:center; padding:40px; color:red;">Could not load the requested data.</div>';
+      }
+    }
+  }
 
-    // Fetch the page content
+  function loadContent(url) {
+    contentArea.style.display = 'block';
+    contentArea.innerHTML = '<div style="text-align:center; padding:60px;"><i class="fa fa-circle-notch fa-spin fa-3x" style="color:#0ea5e9;"></i><div style="margin-top:16px; color:var(--text-3); font-weight:600;">Loading data...</div></div>';
+    
     fetch(url)
-      .then(response => response.text())
-      .then(html => {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-        // Extract the .page-body (or fallback) from the loaded page
-        const extractedContent = doc.querySelector('.page-body') || doc.querySelector('.tbl-wrap') || doc.querySelector('.card');
-        
-        if (extractedContent) {
-          contentArea.innerHTML = '';
-          contentArea.appendChild(extractedContent);
-          
-          // Re-initialize DataTable for dynamically loaded tables
-          if (typeof $ !== 'undefined' && $.fn.dataTable) {
-            $(contentArea).find('table').DataTable({
-              "pageLength": 10,
-              "language": {
-                "search": "",
-                "searchPlaceholder": "Search records...",
-                "lengthMenu": "Show _MENU_ entries"
-              },
-              "destroy": true
-            });
-          }
-        } else {
-          contentArea.innerHTML = '<div style="text-align:center; padding:40px; color:red;">Could not load the requested data.</div>';
-        }
-      })
+      .then(response => response.text().then(html => ({ html: html, url: response.url })))
+      .then(data => processHTMLResponse(data.html, data.url))
       .catch(err => {
         contentArea.innerHTML = '<div style="text-align:center; padding:40px; color:red;">An error occurred while fetching data.</div>';
       });
   }
+
+  // Intercept form submissions
+  document.addEventListener('submit', function(e) {
+    const form = e.target;
+    if (form.tagName.toLowerCase() === 'form') {
+      e.preventDefault();
+      
+      contentArea.style.display = 'block';
+      contentArea.innerHTML = '<div style="text-align:center; padding:60px;"><i class="fa fa-circle-notch fa-spin fa-3x" style="color:#0ea5e9;"></i><div style="margin-top:16px; color:var(--text-3); font-weight:600;">Processing...</div></div>';
+      
+      const formData = new FormData(form);
+      let url = form.getAttribute('action') || window.location.href;
+      const method = form.getAttribute('method') || 'GET';
+      
+      const fetchOptions = {
+        method: method.toUpperCase(),
+      };
+      
+      if (method.toUpperCase() === 'POST') {
+        fetchOptions.body = formData;
+      } else {
+        const params = new URLSearchParams(formData);
+        url += (url.includes('?') ? '&' : '?') + params.toString();
+      }
+      
+      fetch(url, fetchOptions)
+        .then(response => response.text().then(html => ({ html: html, url: response.url })))
+        .then(data => processHTMLResponse(data.html, data.url))
+        .catch(err => {
+          contentArea.innerHTML = '<div style="text-align:center; padding:40px; color:red;">An error occurred while processing data.</div>';
+        });
+    }
+  });
 
   // Intercept clicks using event delegation
   document.addEventListener('click', function(e) {
@@ -359,11 +393,9 @@ document.addEventListener("DOMContentLoaded", function() {
     const href = link.getAttribute('href');
     if (!href || href === '/myapp/adm_homepage_get/' || href.startsWith('#') || href === '/myapp/logout/') return;
 
-    // Check if it's a navbar link, dropdown item, or explicitly tagged ajax-link
     if (link.classList.contains('tn-link') || link.classList.contains('tn-dropdown-item') || link.classList.contains('ajax-link')) {
       e.preventDefault();
       
-      // Update active state if it's a navbar interaction
       if (link.classList.contains('tn-link') || link.classList.contains('tn-dropdown-item')) {
         document.querySelectorAll('.tn-link').forEach(l => l.classList.remove('active'));
         if (link.classList.contains('tn-dropdown-item')) {

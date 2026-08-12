@@ -41,8 +41,6 @@
         <td>{{ i.phone }}</td>
         <td>{{ i.city }}</td><td>{{ i.state }}</td><td>{{ i.country }}</td>
       </tr>
-      {% empty %}
-      <tr><td colspan="10" style="text-align:center;padding:40px;color:var(--text-4);"><i class="fa fa-users" style="font-size:28px;display:block;margin-bottom:8px;"></i>No users registered yet</td></tr>
       {% endfor %}
     </tbody>
   </table>

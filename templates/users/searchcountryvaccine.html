@@ -36,8 +36,6 @@
         <td><span class="badge b-teal"><i class="fa fa-syringe"></i> {{ i.VACCINATION.vaccine_name }}</span></td>
         <td style="font-size:13px;color:var(--text-3);">{{ i.description }}</td>
       </tr>
-      {% empty %}
-      <tr><td colspan="4" style="text-align:center;padding:40px;color:var(--text-4);"><i class="fa fa-earth-asia" style="font-size:28px;display:block;margin-bottom:8px;"></i>No records found</td></tr>
       {% endfor %}
     </tbody>
   </table>

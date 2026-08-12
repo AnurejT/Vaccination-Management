@@ -51,8 +51,6 @@
             </td>
             <td style="font-size:12px;max-width:200px;color:var(--text-3);">{{ i.street }}, {{ i.city }}, {{ i.state }} {{ i.postal_code }} - {{ i.country }}</td>
           </tr>
-          {% empty %}
-          <tr><td colspan="5" style="text-align:center;padding:40px;color:var(--text-4);"><i class="fa fa-hospital" style="font-size:28px;display:block;margin-bottom:8px;"></i>No partner hospitals found</td></tr>
           {% endfor %}
         </tbody>
       </table>

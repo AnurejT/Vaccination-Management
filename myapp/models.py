@@ -54,10 +54,13 @@ class CountryVaccine(models.Model):
 class VaccineDocument(models.Model):
     USERS = models.ForeignKey(Users, on_delete = models.CASCADE)
     HOSPITAL = models.ForeignKey(Hospital, on_delete = models.CASCADE)
+    VACCINATION = models.ForeignKey(Vaccination, on_delete=models.CASCADE, null=True, blank=True)
     date = models.DateField()
-    time = models.DateField()
+    time = models.TimeField()
     status = models.CharField(max_length=100)
     document = models.CharField(max_length=100)
+    typee = models.CharField(max_length=50, default='user')
+    forid = models.IntegerField(default=0)
 
 class Stock(models.Model):
     VACCINATION = models.ForeignKey(Vaccination, on_delete = models.CASCADE)

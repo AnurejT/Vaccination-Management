@@ -1,7 +1,7 @@
 import smtplib
 
 from django.contrib import messages
-from django.contrib.auth import authenticate, logout, login
+from django.contrib.auth import authenticate, logout, login, update_session_auth_hash
 from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render, redirect
 from datetime import datetime
@@ -507,20 +507,52 @@ def user_deletechildren_post(request, id):
     Children.objects.get(id=id).delete()
     return redirect('/myapp/user_viewchildren_get/')
 
-def user_uploadvaccinedocument_get(requst):
-    data = Vaccination.objects.all()
-    return render(requst, 'users/uploadvaccinedocument.html', {'data':data})
+def user_uploadvaccinedocument_get(request):
 
-# def user_uploadvaccinedocument_post(request):
-#     vaccine_name = request.POST['vaccine name']
-#     vaccine_document = request.POST['files']
-#     date = datetime.now().strftime('%Y%m%d-%H%M%S')
-#
-#
-#     a = VaccineDocument()
-#     a.
-#
-#     return redirect('/myapp/user_homepage_get/')
+    user = Users.objects.get(AUTH_USER_id = request.user)
+    children = Children.objects.filter(USERS=user)
+    vaccines = Vaccination.objects.all()
+    hospitals = Hospital.objects.filter(status='approved')
+
+    return render(request,'users/uploadvaccinedocument.html', {'vaccines':vaccines, 'children':children, 'current_user':user, 'hospitals':hospitals})
+
+def user_uploadvaccinedocument_post(request):
+
+    hospital_id = request.POST['hospitals']
+    vaccine_id = request.POST['vaccines']
+    selected_for = request.POST['selected_for']
+
+    user = Users.objects.get(AUTH_USER_id = request.user)
+
+    photo = request.FILES['photo']
+    date = datetime.now().strftime('%Y%m%d-%H%M%S')+'.jpg'
+    fs = FileSystemStorage()
+    fs.save(date, photo)
+    path = fs.url(date)
+
+    date_now = datetime.now().date()
+    time_now = datetime.now().time()
+
+    a = VaccineDocument()
+    a.date = date_now
+    a.time = time_now
+    a.document = path
+    a.USERS_id = user.id
+    a.HOSPITAL_id = hospital_id
+    a.VACCINATION_id = vaccine_id
+    
+    if selected_for:
+        parts = selected_for.split('_')
+        a.typee = parts[0]
+        a.forid = int(parts[1])
+    else:
+        a.typee = 'user'
+        a.forid = user.id
+
+    a.status = 'pending'
+    a.save()
+
+    return redirect('/myapp/user_uploadvaccinedocument_get/')
 
 def user_viewhospital_get(request):
     data = Hospital.objects.filter(status='approved')
@@ -580,7 +612,7 @@ def user_slotbook_post(request, id):
     a.save()
 
     messages.success(request, "Booked Successfully!")
-    return redirect('/myapp/user_homepage_get/')
+    return redirect('/myapp/user_viewbooking_get/')
 
 def user_viewbooking_get(request):
     data = Booking.objects.filter(USERS__AUTH_USER_id= request.user)
@@ -776,6 +808,7 @@ def hos_viewbooking_get(request):
 
     hospital = Hospital.objects.get(AUTH_USER_id=request.user)
     data = Booking.objects.filter(SLOT__HOSPITAL_id=hospital.id)
+    document = VaccineDocument.objects.filter(HOSPITAL_id=hospital.id)
 
     for booking in data:
         if booking.typee == 'child':
@@ -788,7 +821,7 @@ def hos_viewbooking_get(request):
             booking.patient_name = booking.USERS.name
             booking.patient_photo = booking.USERS.photo
 
-    return render(request, 'hospitals/viewbooking.html', {'data': data})
+    return render(request, 'hospitals/viewbooking.html', {'data': data, 'document':document})
 
 def hos_viewbookingmore_get(request, id):
 
@@ -812,15 +845,25 @@ def hos_viewbookingmore_get(request, id):
 
     return render(request, 'hospitals/viewbookingmore.html', {'data': data})
 
+def hos_viewdocument_get(request):
+    hospital = Hospital.objects.get(AUTH_USER_id=request.user)
+    data =  VaccineDocument.objects.filter(HOSPITAL_id = hospital.id)
+
+    return render(request, 'hospitals/viewdocument.html', {'data':data})
+
+def hos_approvedocument_post(request, id):
+    document = VaccineDocument.objects.get(id=id)
+    document.status = 'approved'
+    document.save()
+
+    return redirect('/myapp/hos_viewbooking_get/')
+
 def hos_searchuser_get(request):
     data = Users.objects.all()
     return render(request, 'hospitals/searchuser.html', {'data':data})
 
 def hos_viewvaccinedocument_get(request):
     return render(request, 'hospitals/viewvaccinedocument.html')
-
-def hos_approvedocument_post(request):
-    return redirect('/myapp/hos_viewvaccinedocument_get/')
 
 def hos_viewemergencyvaccine_get(request):
     hospital = Hospital.objects.get(AUTH_USER_id = request.user)
