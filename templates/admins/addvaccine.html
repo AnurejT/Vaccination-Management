@@ -20,11 +20,11 @@
       </div>
       <div class="fg"><label class="fl">Manufacturer</label><input type="text" class="fc" name="manufacturer" required placeholder="e.g. Serum Institute"></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
-        <div class="fg"><label class="fl">Expiration Date</label><input type="date" class="fc" name="date" required></div>
-        <div class="fg"><label class="fl">Dosage Amount</label><input type="text" class="fc" name="dosage amount" required placeholder="e.g. 0.5ml"></div>
+        <div class="fg"><label class="fl">Expiration Date</label><input type="date" min="2026-08-13" class="fc" name="date" required></div>
+        <div class="fg"><label class="fl">Dosage Amount In ml</label><input type="text" class="fc" name="dosage amount" required placeholder="e.g. 0.5ml"></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;">
-        <div class="fg"><label class="fl">Vaccination Age</label><input type="text" class="fc" name="vaccination age" required placeholder="e.g. 18+"></div>
+        <div class="fg"><label class="fl">Vaccination Age</label><input type="number" class="fc" name="vaccination age" required placeholder="e.g. 18+"></div>
         <div class="fg"><label class="fl">Min Age</label><input type="number" class="fc" name="min age" required placeholder="0"></div>
         <div class="fg"><label class="fl">Max Age</label><input type="number" class="fc" name="max age" required placeholder="99"></div>
       </div>

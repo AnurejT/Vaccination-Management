@@ -14,7 +14,7 @@
     <form action="/myapp/hospital_signup_post/" method="post" enctype="multipart/form-data">
       {% csrf_token %}
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 16px;">
-        <div class="fg" style="grid-column:1/-1;"><label class="fl">Hospital Name</label><input type="text" class="fc" name="name" placeholder="Full hospital name" required></div>
+        <div class="fg" style="grid-column:1/-1;"><label class="fl">Hospital Name</label><input type="text" pattern="[a-zA-Z ]+" class="fc" name="name" placeholder="Full hospital name" required></div>
 
         <div class="fg">
             <label class="fl">Hospital Type</label>
@@ -37,15 +37,15 @@
                 <option>Public-Private Partnership</option
                 ></select>
         </div>
-        <div class="fg"><label class="fl">Established Date</label><input type="date" class="fc" name="date" required></div>
-        <div class="fg"><label class="fl">License Number</label><input type="text" class="fc" name="license_number" placeholder="License no." required></div>
+        <div class="fg"><label class="fl">Established Date</label><input type="date" max="2026-08-12" class="fc" name="date" required></div>
+        <div class="fg"><label class="fl">License Number</label><input type="text" class="fc" id="license_number" name="license_number" minlength="5" maxlength="30" pattern="[A-Za-z0-9\/\-]+" title="License number can only contain letters, numbers, hyphens (-), and slashes (/)" placeholder="e.g., CEA-12345/2026" required></div>
         <div class="fg"><label class="fl">Email</label><input type="email" class="fc" name="email" placeholder="Hospital email" required></div>
-        <div class="fg"><label class="fl">Phone</label><input type="text" class="fc" name="phone" placeholder="Contact number"></div>
-        <div class="fg"><label class="fl">Street</label><input type="text" class="fc" name="street" placeholder="Street address"></div>
-        <div class="fg"><label class="fl">City</label><input type="text" class="fc" name="city" placeholder="City"></div>
-        <div class="fg"><label class="fl">State</label><input type="text" class="fc" name="state" placeholder="State"></div>
-        <div class="fg"><label class="fl">Country</label><input type="text" class="fc" name="country" placeholder="Country"></div>
-        <div class="fg"><label class="fl">Postal Code</label><input type="text" class="fc" name="Pcode" placeholder="ZIP code"></div>
+        <div class="fg"><label class="fl">Phone</label><input type="tel" pattern="[0-9]{10}" maxlength="10" class="fc" name="phone" placeholder="Contact number" required></div>
+        <div class="fg"><label class="fl">Street</label><input type="text" class="fc" name="street" placeholder="Street address" required></div>
+        <div class="fg"><label class="fl">City</label><input type="text" class="fc" name="city" placeholder="City" required></div>
+        <div class="fg"><label class="fl">State</label><input type="text" class="fc" name="state" placeholder="State" required></div>
+        <div class="fg"><label class="fl">Country</label><input type="text" class="fc" name="country" placeholder="Country" required></div>
+        <div class="fg"><label class="fl">Postal Code</label><input type="tel" pattern="[0-9]{6}" maxlength="6" class="fc" name="Pcode" placeholder="ZIP code" required></div>
         <div class="fg" style="grid-column:1/-1;"><label class="fl">Hospital Logo</label><input type="file" class="fc" name="photo" accept="image/*" required></div>
         <div class="fg"><label class="fl">Password</label><input type="password" class="fc" name="password" placeholder="Create a password" required></div>
         <div class="fg"><label class="fl">Confirm Password</label><input type="password" class="fc" name="confirm password" placeholder="Confirm password" required></div>

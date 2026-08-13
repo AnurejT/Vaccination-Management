@@ -342,7 +342,7 @@ def adm_deletecountryvaccine_post(request, id):
 
 @login_required(login_url='/myapp/Login_get/')
 def adm_viewbookingreport_get(request):
-    data = Booking.objects.all()
+    data = Booking.objects.all().order_by('-id')
     return render(request, 'admins/viewbookingreport.html', {'data':data})
 
 @login_required(login_url='/myapp/Login_get/')
@@ -382,18 +382,22 @@ def adm_changepassword_post(request):
 def adm_homepage_get(request):
     return render(request, 'admins/adminhomepage.html')
 
+@login_required(login_url='/myapp/Login_get/')
 def user_homepage_get(request):
     data = Users.objects.get(AUTH_USER_id = request.user)
     return render(request, 'users/userhomepage.html', {'data':data})
 
+@login_required(login_url='/myapp/Login_get/')
 def user_viewprofile_get(request):
     data = Users.objects.get(AUTH_USER_id = request.user)
     return render(request, 'users/viewprofile.html', {'data':data})
 
+@login_required(login_url='/myapp/Login_get/')
 def user_editprofile_get(request):
     data = Users.objects.get(AUTH_USER_id = request.user)
     return render(request, 'users/editprofile.html', {'data':data})
 
+@login_required(login_url='/myapp/Login_get/')
 def user_editprofile_post(request):
     name = request.POST['name']
     gender = request.POST['gender']
@@ -430,12 +434,15 @@ def user_editprofile_post(request):
 
     return redirect('/myapp/user_viewprofile_get/')
 
+@login_required(login_url='/myapp/Login_get/')
 def user_viewvaccinecard_get(request):
     return render(request, 'users/viewvaccinecard.html')
 
+@login_required(login_url='/myapp/Login_get/')
 def user_changepassword_get(request):
     return  render(request, 'users/changepassword.html')
 
+@login_required(login_url='/myapp/Login_get/')
 def user_changepassword_post(request):
     current_password = request.POST['current password']
     new_password = request.POST['new password']
@@ -454,20 +461,25 @@ def user_changepassword_post(request):
     else:
         return redirect('/myapp/user_homepage_get/')
 
+@login_required(login_url='/myapp/Login_get/')
 def user_searchcountryvaccine_get(request):
     data = CountryVaccine.objects.all()
     return render(request, 'users/searchcountryvaccine.html', {'data':data})
 
+@login_required(login_url='/myapp/Login_get/')
 def user_searchglobalvaccine_get(request):
     data = Vaccination.objects.all()
     return render(request, 'users/searchglobalvaccine.html', {'data': data})
 
+@login_required(login_url='/myapp/Login_get/')
 def user_viewnotifications_get(request):
     return render(request, 'users/viewnotifications.html')
 
+@login_required(login_url='/myapp/Login_get/')
 def user_addchildren_get(request):
     return render(request, 'users/addchildren.html')
 
+@login_required(login_url='/myapp/Login_get/')
 def user_addchildren_post(request):
     name = request.POST['name']
     gender = request.POST['gender']
@@ -491,16 +503,19 @@ def user_addchildren_post(request):
     messages.success(request, 'Children added succefully! ')
     return redirect('/myapp/user_addchildren_get/')
 
+@login_required(login_url='/myapp/Login_get/')
 def user_viewchildren_get(request):
 
     user = Users.objects.get(AUTH_USER_id=request.user)
     data = Children.objects.filter(USERS=user)
     return render(request, 'users/viewchildren.html', {'data':data})
 
+@login_required(login_url='/myapp/Login_get/')
 def user_editchildren_get(request, id):
     data = Children.objects.get(id=id)
     return render(request, 'users/editchildren.html', {'data':data})
 
+@login_required(login_url='/myapp/Login_get/')
 def user_editchildren_post(request):
     id = request.POST['id']
     name = request.POST['name']
@@ -528,10 +543,12 @@ def user_editchildren_post(request):
     messages.success(request, 'Edited children successfully!')
     return redirect('/myapp/user_viewchildren_get?')
 
+@login_required(login_url='/myapp/Login_get/')
 def user_deletechildren_post(request, id):
     Children.objects.get(id=id).delete()
     return redirect('/myapp/user_viewchildren_get/')
 
+@login_required(login_url='/myapp/Login_get/')
 def user_uploadvaccinedocument_get(request):
 
     user = Users.objects.get(AUTH_USER_id = request.user)
@@ -541,6 +558,7 @@ def user_uploadvaccinedocument_get(request):
 
     return render(request,'users/uploadvaccinedocument.html', {'vaccines':vaccines, 'children':children, 'current_user':user, 'hospitals':hospitals})
 
+@login_required(login_url='/myapp/Login_get/')
 def user_uploadvaccinedocument_post(request):
 
     hospital_id = request.POST['hospitals']
@@ -579,10 +597,12 @@ def user_uploadvaccinedocument_post(request):
 
     return redirect('/myapp/user_uploadvaccinedocument_get/')
 
+@login_required(login_url='/myapp/Login_get/')
 def user_viewhospital_get(request):
     data = Hospital.objects.filter(status='approved')
     return render(request, 'users/viewhospital.html', {'data':data})
 
+@login_required(login_url='/myapp/Login_get/')
 def user_generalvaccineavailability_get(request):
     data = Vaccination.objects.filter(emergency_vaccine = 'no')
 
@@ -595,12 +615,14 @@ def user_generalvaccineavailability_get(request):
 
     return render(request, 'users/vaccineavailability.html', {'data':data})
 
+@login_required(login_url='/myapp/Login_get/')
 def user_viewslot_get(request,id):
     data = Slot.objects.filter(VACCINATION_id=id)
     user = Users.objects.get(AUTH_USER_id=request.user)
     children = Children.objects.filter(USERS=user)
     return render(request, 'users/viewslot.html', {'data':data, 'children':children, 'current_user':user})
 
+@login_required(login_url='/myapp/Login_get/')
 def user_slotbook_post(request, id):
 
     slot = Slot.objects.get(id=id)
@@ -639,8 +661,9 @@ def user_slotbook_post(request, id):
     messages.success(request, "Booked Successfully!")
     return redirect('/myapp/user_viewbooking_get/')
 
+@login_required(login_url='/myapp/Login_get/')
 def user_viewbooking_get(request):
-    data = Booking.objects.filter(USERS__AUTH_USER_id= request.user)
+    data = Booking.objects.filter(USERS__AUTH_USER_id= request.user).order_by('-id')
     for i in data:
         if i.typee == 'child':
             child = Children.objects.get(id=i.forid)
@@ -649,6 +672,7 @@ def user_viewbooking_get(request):
             i.booked_for_name = "Myself"
     return render(request, 'users/viewbooking.html', {'data':data})
 
+@login_required(login_url='/myapp/Login_get/')
 def user_deletebooking_post(request, id):
 
     booking = Booking.objects.get(id=id)
@@ -666,6 +690,7 @@ def user_deletebooking_post(request, id):
     messages.success(request, 'Booking deleted successfully!')
     return redirect('/myapp/user_viewbooking_get')
 
+@login_required(login_url='/myapp/Login_get/')
 def user_emergencyvaccineavailability_get(request):
     data = Vaccination.objects.filter(emergency_vaccine='yes')
 
@@ -674,21 +699,26 @@ def user_emergencyvaccineavailability_get(request):
 
     return render(request, 'users/emergencyvaccineavailability.html', {'data':data})
 
+@login_required(login_url='/myapp/Login_get/')
 def user_viewslotemergency_get(request):
     return render(request, 'users/viewslotemergency.html')
 
+@login_required(login_url='/myapp/Login_get/')
 def hos_homepage_get(request):
     data = Hospital.objects.get(AUTH_USER_id = request.user)
     return render(request, 'hospitals/hospitalhomepage.html', {'data':data})
 
+@login_required(login_url='/myapp/Login_get/')
 def hos_viewprofile_get(request):
     data = Hospital.objects.get(AUTH_USER_id = request.user)
     return render(request, 'hospitals/viewprofile.html', {'data':data})
 
+@login_required(login_url='/myapp/Login_get/')
 def hos_editprofile_get(request):
     data = Hospital.objects.get(AUTH_USER_id = request.user)
     return render(request, 'hospitals/editprofile.html', {'data':data})
 
+@login_required(login_url='/myapp/Login_get/')
 def hos_editprofile_post(request):
     name = request.POST['name']
     hospital_type = request.POST['Htype']
@@ -730,12 +760,14 @@ def hos_editprofile_post(request):
 
     return redirect('/myapp/hos_viewprofile_get/')
 
+@login_required(login_url='/myapp/Login_get/')
 def hos_addstock_get(request):
 
     data = Vaccination.objects.all()
 
     return render(request, 'hospitals/addvaccinestock.html', {'data': data})
 
+@login_required(login_url='/myapp/Login_get/')
 def hos_addstock_post(request):
     vaccine = request.POST['vaccine name']
     quantity_available = request.POST['quantity_available']
@@ -756,16 +788,19 @@ def hos_addstock_post(request):
 
         return redirect('/myapp/hos_viewstock_get/')
 
+@login_required(login_url='/myapp/Login_get/')
 def hos_viewstock_get(request):
     hospital = Hospital.objects.get(AUTH_USER_id = request.user)
     data = Stock.objects.filter(HOSPITAL_id = hospital.id)
     return render(request, 'hospitals/viewvaccinestock.html', {'data':data})
 
+@login_required(login_url='/myapp/Login_get/')
 def hos_updatestock_get(request,id):
     hospital = Hospital.objects.get(AUTH_USER_id = request.user)
     data = Stock.objects.get(VACCINATION_id=id, HOSPITAL_id = hospital.id)
     return render(request, 'hospitals/updatestock.html', {'data':data})
 
+@login_required(login_url='/myapp/Login_get/')
 def hos_updatestock_post(request):
 
         id = request.POST['id']
@@ -777,11 +812,13 @@ def hos_updatestock_post(request):
 
         return redirect('/myapp/hos_viewstock_get/')
 
+@login_required(login_url='/myapp/Login_get/')
 def hos_addslot_get(request,id):
     hospital = Hospital.objects.get(AUTH_USER_id = request.user)
     data = Stock.objects.get(VACCINATION_id=id, HOSPITAL_id = hospital.id)
     return render(request, 'hospitals/addslot.html', {'data':data})
 
+@login_required(login_url='/myapp/Login_get/')
 def hos_addslot_post(request):
     id = request.POST['id']
     date = request.POST['date']
@@ -800,15 +837,18 @@ def hos_addslot_post(request):
     a.save()
     return redirect('/myapp/hos_viewstock_get/')
 
+@login_required(login_url='/myapp/Login_get/')
 def hos_viewslot_get(request):
     hospital = Hospital.objects.get(AUTH_USER_id = request.user)
     data = Slot.objects.filter(HOSPITAL_id = hospital.id)
     return render(request, 'hospitals/viewslot.html', {'data':data})
 
+@login_required(login_url='/myapp/Login_get/')
 def hos_editslot_get(request, id):
     data = Slot.objects.get(id=id)
     return render(request, 'hospitals/editslot.html', {'data':data})
 
+@login_required(login_url='/myapp/Login_get/')
 def hos_editslot_post(request):
     id = request.POST['id']
     date = request.POST['date']
@@ -825,15 +865,17 @@ def hos_editslot_post(request):
 
     return redirect('/myapp/hos_viewslot_get/')
 
+@login_required(login_url='/myapp/Login_get/')
 def hos_deleteslot_post(request, id):
     Slot.objects.get(id=id).delete()
     messages.success(request, 'Slot deleted successfully!')
     return redirect('/myapp/hos_viewslot_get/')
 
+@login_required(login_url='/myapp/Login_get/')
 def hos_viewbooking_get(request):
 
     hospital = Hospital.objects.get(AUTH_USER_id=request.user)
-    data = Booking.objects.filter(SLOT__HOSPITAL_id=hospital.id)
+    data = Booking.objects.filter(SLOT__HOSPITAL_id=hospital.id).order_by('-id')
 
     for booking in data:
         if booking.typee == 'child':
@@ -846,6 +888,7 @@ def hos_viewbooking_get(request):
 
     return render(request, 'hospitals/viewbooking.html', {'data': data})
 
+@login_required(login_url='/myapp/Login_get/')
 def hos_viewbookingmore_get(request, id):
 
     data = Booking.objects.get(id=id)
@@ -868,12 +911,14 @@ def hos_viewbookingmore_get(request, id):
 
     return render(request, 'hospitals/viewbookingmore.html', {'data': data})
 
+@login_required(login_url='/myapp/Login_get/')
 def hos_viewdocument_get(request):
     hospital = Hospital.objects.get(AUTH_USER_id=request.user)
     data =  VaccineDocument.objects.filter(HOSPITAL_id = hospital.id)
 
     return render(request, 'hospitals/viewdocument.html', {'data':data})
 
+@login_required(login_url='/myapp/Login_get/')
 def hos_approvedocument_post(request, id):
     document = VaccineDocument.objects.get(id=id)
     document.status = 'approved'
@@ -881,13 +926,16 @@ def hos_approvedocument_post(request, id):
 
     return redirect('/myapp/hos_viewbooking_get/')
 
+@login_required(login_url='/myapp/Login_get/')
 def hos_searchuser_get(request):
     data = Users.objects.all()
     return render(request, 'hospitals/searchuser.html', {'data':data})
 
+@login_required(login_url='/myapp/Login_get/')
 def hos_viewvaccinedocument_get(request):
     return render(request, 'hospitals/viewvaccinedocument.html')
 
+@login_required(login_url='/myapp/Login_get/')
 def hos_viewemergencyvaccine_get(request):
     hospital = Hospital.objects.get(AUTH_USER_id = request.user)
     data = Stock.objects.filter(
@@ -896,6 +944,7 @@ def hos_viewemergencyvaccine_get(request):
     )
     return render(request, 'hospitals/emergencyvaccine.html', {'data':data})
 
+@login_required(login_url='/myapp/Login_get/')
 def hos_editemergencyvaccine_get(request, id):
 
     stock_data = Stock.objects.get(id=id)
@@ -903,19 +952,22 @@ def hos_editemergencyvaccine_get(request, id):
 
     return render(request, 'hospitals/editemergencyvaccine.html', {'data':stock_data, 'vaccines':vaccines})
 
+@login_required(login_url='/myapp/Login_get/')
 def hos_editemergencyvaccine_post(request):
-    vaccine_id = request.POST['vaccine_id']
-    hospital_id = Hospital.objects.get(AUTH_USER_id = request.user).id
+    stock_id = request.POST['id']
     quantity_available = request.POST['quantity available']
 
-    a = Stock.objects.get(HOSPITAL_id=hospital_id, VACCINATION_id = vaccine_id)
+    a = Stock.objects.get(id=stock_id)
     a.quantity_available = quantity_available
     a.save()
+    messages.success(request, 'Emergency vaccine stock updated successfully!')
     return redirect('/myapp/hos_viewemergencyvaccine_get/')
 
+@login_required(login_url='/myapp/Login_get/')
 def hos_changepassword_get(request):
     return render(request, 'hospitals/changepassword.html')
 
+@login_required(login_url='/myapp/Login_get/')
 def hos_changepassword_post(request):
     current_password = request.POST['current_password']
     new_password = request.POST['new_password']

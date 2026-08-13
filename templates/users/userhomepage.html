@@ -326,6 +326,20 @@
 document.addEventListener("DOMContentLoaded", function() {
   const contentArea = document.getElementById('dynamic-content-area');
   
+  window.addEventListener('popstate', function(e) {
+    const currentUrl = window.location.pathname;
+    if (currentUrl === '/myapp/user_homepage_get/') {
+      document.querySelectorAll('.tn-link, .tn-dropdown-item').forEach(l => l.classList.remove('active'));
+      const homeLink = document.querySelector(`a[href="${currentUrl}"]`);
+      if (homeLink) homeLink.classList.add('active');
+      contentArea.style.display = 'none';
+      contentArea.innerHTML = '';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      loadContent(window.location.href, false);
+    }
+  });
+  
   function processHTMLResponse(html, finalUrl) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
@@ -347,6 +361,7 @@ document.addEventListener("DOMContentLoaded", function() {
       if (typeof $ !== 'undefined' && $.fn.dataTable) {
         $(contentArea).find('table').DataTable({
           "pageLength": 10,
+          "order": [],
           "language": {
             "search": "",
             "searchPlaceholder": "Search records...",
@@ -368,7 +383,10 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
 
-  function loadContent(url) {
+  function loadContent(url, pushState = true) {
+    if (pushState) {
+      window.history.pushState({url: url}, '', url);
+    }
     contentArea.style.display = 'block';
     contentArea.innerHTML = '<div style="text-align:center; padding:60px;"><i class="fa fa-circle-notch fa-spin fa-3x" style="color:#059669;"></i><div style="margin-top:16px; color:var(--text-3); font-weight:600;">Loading data...</div></div>';
     
@@ -406,7 +424,12 @@ document.addEventListener("DOMContentLoaded", function() {
       
       fetch(url, fetchOptions)
         .then(response => response.text().then(html => ({ html: html, url: response.url })))
-        .then(data => processHTMLResponse(data.html, data.url))
+        .then(data => {
+            if (data.url && data.url !== window.location.href) {
+                window.history.pushState({url: data.url}, '', data.url);
+            }
+            processHTMLResponse(data.html, data.url);
+        })
         .catch(err => {
           contentArea.innerHTML = '<div style="text-align:center; padding:40px; color:red;">An error occurred while processing data.</div>';
         });
@@ -421,6 +444,9 @@ document.addEventListener("DOMContentLoaded", function() {
     const href = link.getAttribute('href');
     if (href === '/myapp/user_homepage_get/') {
       e.preventDefault();
+      if (window.location.pathname !== href) {
+        window.history.pushState({url: href}, '', href);
+      }
       document.querySelectorAll('.tn-link').forEach(l => l.classList.remove('active'));
       if(link.classList.contains('tn-link')) link.classList.add('active');
       contentArea.style.display = 'none';
@@ -448,6 +474,13 @@ document.addEventListener("DOMContentLoaded", function() {
       loadContent(href);
     }
   });
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const loadUrl = urlParams.get('load');
+  if (loadUrl) {
+    window.history.replaceState({url: loadUrl}, '', loadUrl);
+    loadContent(loadUrl, false);
+  }
 });
 </script>
 {% endblock %}

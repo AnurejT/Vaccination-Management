@@ -206,6 +206,20 @@ tbody td{padding:12px 14px;font-size:13px;color:var(--text-2);vertical-align:mid
 .dataTables_paginate .paginate_button.current { background: var(--teal); color: #fff !important; border-color: var(--teal); }
 .dataTables_paginate .paginate_button.disabled { opacity: 0.5; cursor: not-allowed; background: #f8fafc; }
 </style>
+<script>
+  (function() {
+    var path = window.location.pathname;
+    if (path.includes('/myapp/') && !path.includes('_homepage_get') && !path.includes('Login_get') && !path.includes('signup') && !path.includes('logout') && !path.includes('forget')) {
+      if (path.includes('/adm_')) {
+        window.location.replace('/myapp/adm_homepage_get/?load=' + encodeURIComponent(path));
+      } else if (path.includes('/hos_')) {
+        window.location.replace('/myapp/hos_homepage_get/?load=' + encodeURIComponent(path));
+      } else if (path.includes('/user_')) {
+        window.location.replace('/myapp/user_homepage_get/?load=' + encodeURIComponent(path));
+      }
+    }
+  })();
+</script>
 {% block extra_head %}{% endblock %}
 </head>
 <body>
@@ -246,6 +260,7 @@ setTimeout(()=>{document.querySelectorAll('.alert').forEach(a=>{a.style.transiti
   $(document).ready(function () {
     $('table').DataTable({
       "pageLength": 10,
+      "order": [],
       "language": {
         "search": "",
         "searchPlaceholder": "Search records...",

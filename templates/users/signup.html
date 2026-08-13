@@ -17,7 +17,7 @@
 
         <div class="fg" style="grid-column:1/-1;">
             <label class="fl">Full Name</label>
-            <input type="text" class="fc" name="name" placeholder="Enter your full name" required>
+            <input type="text" pattern="[A-Za-z ]+" class="fc" name="name" placeholder="Enter your full name" required>
         </div>
 
         <div class="fg">
@@ -30,14 +30,14 @@
             </select>
         </div>
 
-        <div class="fg"><label class="fl">Date of Birth</label><input type="date" class="fc" name="date" required></div>
+        <div class="fg"><label class="fl">Date of Birth</label><input type="date" id="dob" name="dob" max="2026-08-12" required></div>
         <div class="fg" style="grid-column:1/-1;"><label class="fl">Email Address</label><input type="email" class="fc" name="email" placeholder="Enter your email" required></div>
-        <div class="fg" style="grid-column:1/-1;"><label class="fl">Phone Number</label><input type="text" class="fc" name="phone" placeholder="Enter phone number"></div>
-        <div class="fg"><label class="fl">Street</label><input type="text" class="fc" name="street" placeholder="Street address"></div>
-        <div class="fg"><label class="fl">City</label><input type="text" class="fc" name="city" placeholder="City"></div>
-        <div class="fg"><label class="fl">State</label><input type="text" class="fc" name="state" placeholder="State"></div>
-        <div class="fg"><label class="fl">Country</label><input type="text" class="fc" name="country" placeholder="Country"></div>
-        <div class="fg" style="grid-column:1/-1;"><label class="fl">Postal Code</label><input type="text" class="fc" name="postal_code" placeholder="Postal / ZIP code"></div>
+        <div class="fg" style="grid-column:1/-1;"><label class="fl">Phone Number</label><input type="tel" pattern="[0-9]{10}" maxlength="10" class="fc" name="phone" placeholder="1234567891" required></div>
+        <div class="fg"><label class="fl">Street</label><input type="text" class="fc" name="street" placeholder="Street address" required></div>
+        <div class="fg"><label class="fl">City</label><input type="text" class="fc" name="city" placeholder="City" required></div>
+        <div class="fg"><label class="fl">State</label><input type="text" class="fc" name="state" placeholder="State" required></div>
+        <div class="fg"><label class="fl">Country</label><input type="text" class="fc" name="country" placeholder="Country" required></div>
+        <div class="fg" style="grid-column:1/-1;"><label class="fl">Postal Code</label><input type="tel" pattern="[0-9]{6}" maxlength="6" class="fc" name="postal_code" placeholder="Postal / ZIP code" required></div>
         <div class="fg" style="grid-column:1/-1;"><label class="fl">Profile Photo</label><input type="file" class="fc" name="photo" accept="image/*" required></div>
         <div class="fg"><label class="fl">Password</label><input type="password" class="fc" name="password" placeholder="Create a password" required></div>
         <div class="fg"><label class="fl">Confirm Password</label><input type="password" class="fc" name="confirm_password" placeholder="Confirm password" required></div>

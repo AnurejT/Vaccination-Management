@@ -8,25 +8,17 @@
 {% endblock %}
 {% block content %}
 <div style="margin-bottom:18px;">
-  <a href="/myapp/hos_viewemergencyvaccine_get/" class="btn btn-ghost btn-sm ajax-link">
-    <i class="fa fa-arrow-left"></i> Back to Emergency Vaccines
-  </a>
 </div>
 
 <div class="card" style="max-width:520px;">
-  <div class="card-hd"><span class="card-title"><i class="fa fa-pen" style="color:var(--red);margin-right:8px;"></i>Edit Emergency Vaccine Stock</span></div>
+  <div class="card-hd"><span class="card-title">Edit Emergency Vaccine Stock</span></div>
   <div class="card-body">
     <form action="/myapp/hos_editemergencyvaccine_post/" method="post">
       {% csrf_token %}
       <input type="hidden" name="id" value="{{ data.id }}">
 
       <div class="fg">
-        <label class="fl">Vaccine</label>
-        <select name="vaccine_id" class="fs" required>
-          {% for i in vaccines %}
-            <option value="{{ i.id }}" {% if data.VACCINATION.id == i.id %}selected{% endif %}>{{ i.vaccine_name }}</option>
-          {% endfor %}
-        </select>
+        <label class="fl">Vaccine: {{ data.VACCINATION.vaccine_name }}</label>
       </div>
 
       <div class="fg">
