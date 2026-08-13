@@ -233,7 +233,7 @@
 <!-- TOP NAVIGATION -->
 <div class="tn-navbar">
   <div class="tn-logo">
-    <div class="tn-logo-icon"><i class="fa fa-shield-halved"></i></div>
+    <div class="tn-logo-icon"><i class="fa fa-syringe"></i></div>
     <div class="tn-logo-text">
       <span class="tn-logo-title">VaxCore</span>
       <span class="tn-logo-sub">Vaccination Management System</span>
@@ -320,6 +320,15 @@ document.addEventListener("DOMContentLoaded", function() {
     if (extractedContent) {
       contentArea.innerHTML = '';
       contentArea.appendChild(extractedContent);
+      
+      const messages = doc.querySelectorAll('.alert');
+      if (messages.length > 0) {
+        const msgContainer = document.createElement('div');
+        msgContainer.style.padding = '20px 28px 0';
+        messages.forEach(msg => msgContainer.appendChild(msg));
+        contentArea.appendChild(msgContainer);
+        setTimeout(()=>{ msgContainer.querySelectorAll('.alert').forEach(a=>{a.style.transition='all .4s';a.style.opacity='0';setTimeout(()=>a.remove(),400);}); },4500);
+      }
       
       if (typeof $ !== 'undefined' && $.fn.dataTable) {
         $(contentArea).find('table').DataTable({

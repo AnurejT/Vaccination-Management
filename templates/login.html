@@ -215,6 +215,12 @@
     color: #94a3b8;
     cursor: pointer;
   }
+  
+  /* Hide native browser password reveal eye icon to prevent overlap */
+  input::-ms-reveal,
+  input::-ms-clear {
+    display: none;
+  }
 
   .forgot-link {
     display: block;
@@ -338,7 +344,7 @@
       <div class="login-form-wrapper">
         <div class="login-logo-container">
           <div class="login-logo-icon">
-            <i class="fa fa-shield-halved"></i>
+            <i class="fa fa-syringe"></i>
           </div>
           <div class="login-logo-title">Vax<span>Core</span></div>
           <div class="login-logo-sub">Vaccine Appointment Management System</div>
@@ -386,4 +392,19 @@
   </div>
 
 </div>
+
+<script>
+  document.querySelector('.input-action').addEventListener('click', function() {
+    const pwd = document.getElementById('password');
+    if (pwd.type === 'password') {
+      pwd.type = 'text';
+      this.classList.remove('fa-eye');
+      this.classList.add('fa-eye-slash');
+    } else {
+      pwd.type = 'password';
+      this.classList.remove('fa-eye-slash');
+      this.classList.add('fa-eye');
+    }
+  });
+</script>
 {% endblock %}

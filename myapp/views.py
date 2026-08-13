@@ -802,26 +802,24 @@ def hos_editslot_post(request):
 
 def hos_deleteslot_post(request, id):
     Slot.objects.get(id=id).delete()
+    messages.success(request, 'Slot deleted successfully!')
     return redirect('/myapp/hos_viewslot_get/')
 
 def hos_viewbooking_get(request):
 
     hospital = Hospital.objects.get(AUTH_USER_id=request.user)
     data = Booking.objects.filter(SLOT__HOSPITAL_id=hospital.id)
-    document = VaccineDocument.objects.filter(HOSPITAL_id=hospital.id)
 
     for booking in data:
         if booking.typee == 'child':
-
             child = Children.objects.get(id=booking.forid)
             booking.patient_name = child.name
             booking.patient_photo = child.photo
-
         else:
             booking.patient_name = booking.USERS.name
             booking.patient_photo = booking.USERS.photo
 
-    return render(request, 'hospitals/viewbooking.html', {'data': data, 'document':document})
+    return render(request, 'hospitals/viewbooking.html', {'data': data})
 
 def hos_viewbookingmore_get(request, id):
 

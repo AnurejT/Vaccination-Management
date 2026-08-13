@@ -7,11 +7,10 @@
 {% block topbar_user %}
 {% endblock %}
 {% block content %}
-{% if messages %}{% for msg in messages %}<div class="alert a-success" style="margin-bottom:16px;"><i class="fa fa-circle-check"></i> {{ msg }}</div>{% endfor %}{% endif %}
+
 <div class="tbl-wrap">
   <div class="tbl-hd">
     <span class="card-title">All Vaccines</span>
-    <a href="/myapp/adm_addvaccination_get/" class="btn btn-teal btn-sm ajax-link"><i class="fa fa-plus"></i> Add Vaccine</a>
   </div>
   <div style="overflow-x:auto;">
   <table>
