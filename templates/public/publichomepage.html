@@ -3,25 +3,46 @@
 
 {% block extra_head %}
 <style>
-  body { background: #fff; }
+  body {
+    background: #fff;
+  }
+
   .tn-navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 40px;
-    height: 80px;
-    background: #fff;
-    border-bottom: 1px solid var(--border);
+    padding: 0 30px;
+    height: 70px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.15));
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border-top: 1px solid rgba(255, 255, 255, 0.9);
+    border-left: 1px solid rgba(255, 255, 255, 0.9);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 99px;
+    box-shadow: 0 16px 40px rgba(0, 123, 122, 0.15), inset 0 4px 6px rgba(255, 255, 255, 0.5);
+    position: fixed;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 64px);
+    max-width: 1200px;
+    z-index: 1000;
+    transition: all 0.3s ease;
   }
+
   .tn-logo {
     display: flex;
     align-items: center;
     gap: 12px;
   }
+
   .tn-logo-icon {
     width: 36px;
     height: 36px;
-    background: #007B7A; /* Teal scheme from Login */
+    background: #007B7A;
+    /* Teal scheme from Login */
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -29,16 +50,19 @@
     color: #fff;
     font-size: 16px;
   }
+
   .tn-logo-text {
     display: flex;
     flex-direction: column;
   }
+
   .tn-logo-title {
     font-size: 20px;
     font-weight: 800;
     color: #007B7A;
     line-height: 1.1;
   }
+
   .tn-logo-sub {
     font-size: 10px;
     color: var(--text-3);
@@ -50,6 +74,7 @@
     gap: 32px;
     height: 100%;
   }
+
   .tn-link {
     font-size: 14px;
     font-weight: 600;
@@ -61,12 +86,15 @@
     align-items: center;
     transition: color 0.2s;
   }
+
   .tn-link:hover {
     color: #007B7A;
   }
+
   .tn-link.active {
     color: #007B7A;
   }
+
   .tn-link.active::after {
     content: '';
     position: absolute;
@@ -83,6 +111,7 @@
     align-items: center;
     gap: 16px;
   }
+
   .tn-btn-login {
     background: #007B7A;
     color: #fff;
@@ -93,21 +122,25 @@
     text-decoration: none;
     transition: all 0.2s;
   }
+
   .tn-btn-login:hover {
     background: #006060;
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(0, 123, 122, 0.2);
   }
-  
+
   .tn-hero {
     position: relative;
     width: 100%;
-    height: calc(100vh - 80px);
-    background: #f0fdfa; /* Teal light gradient */
+    height: 100vh;
+    padding-top: 100px;
+    background: #f0fdfa;
+    /* Teal light gradient */
     display: flex;
     align-items: center;
     overflow: hidden;
   }
+
   .tn-hero-bg {
     position: absolute;
     top: 0;
@@ -120,6 +153,7 @@
     mask-image: linear-gradient(to right, transparent, black 30%);
     -webkit-mask-image: linear-gradient(to right, transparent, black 30%);
   }
+
   .tn-hero-content {
     position: relative;
     z-index: 2;
@@ -128,6 +162,7 @@
     margin: 0 auto;
     padding: 0 40px;
   }
+
   .tn-h1 {
     font-size: 48px;
     font-weight: 800;
@@ -135,6 +170,7 @@
     margin-bottom: 20px;
     letter-spacing: -1px;
   }
+
   .tn-p {
     font-size: 18px;
     color: #0f766e;
@@ -155,17 +191,19 @@
       <span class="tn-logo-sub">Public Information Portal</span>
     </div>
   </div>
-  
+
   <div class="tn-links">
     <a href="/myapp/pub_homepage_get/" class="tn-link active">Home</a>
     <a href="/myapp/pub_generalvaccine_get/" class="tn-link">General Vaccines</a>
     <a href="/myapp/pub_viewcountryvaccine_get/" class="tn-link">Country Vaccines</a>
     <a href="/myapp/pub_viewhospital_get/" class="tn-link">Partner Hospitals</a>
   </div>
-  
+
   <div class="tn-right">
-    <a href="/myapp/user_signup_get/" style="color:#007B7A; font-weight:600; font-size:14px; text-decoration:none; margin-right:12px;">Register</a>
-    <a href="/myapp/Login_get/" class="tn-btn-login">Login to Portal <i class="fa fa-arrow-right" style="margin-left:6px;"></i></a>
+    <a href="/myapp/user_signup_get/"
+      style="color:#007B7A; font-weight:600; font-size:14px; text-decoration:none; margin-right:12px;">Register</a>
+    <a href="/myapp/Login_get/" class="tn-btn-login">Login to Portal <i class="fa fa-arrow-right"
+        style="margin-left:6px;"></i></a>
   </div>
 </div>
 
@@ -195,76 +233,93 @@
 </style>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-  const contentArea = document.getElementById('dynamic-content-area');
-  
-  function loadContent(url) {
-    // Show spinner and scroll down
-    contentArea.style.display = 'block';
-    contentArea.innerHTML = '<div style="text-align:center; padding:60px;"><i class="fa fa-circle-notch fa-spin fa-3x" style="color:#007B7A;"></i><div style="margin-top:16px; color:var(--text-3); font-weight:600;">Loading data...</div></div>';
-    
-    // Fetch the page content
-    fetch(url)
-      .then(response => response.text())
-      .then(html => {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-        // Extract the .tbl-wrap from the loaded page
-        const tableContent = doc.querySelector('.tbl-wrap');
-        
-        if (tableContent) {
-          contentArea.innerHTML = '';
-          contentArea.appendChild(tableContent);
-          
-          // Re-initialize DataTable for dynamically loaded tables
-          if (typeof $ !== 'undefined' && $.fn.dataTable) {
-            $(contentArea).find('table').DataTable({
-              "pageLength": 10,
-              "language": {
-                "search": "",
-                "searchPlaceholder": "Search records...",
-                "lengthMenu": "Show _MENU_ entries"
-              },
-              "destroy": true
-            });
+  document.addEventListener("DOMContentLoaded", function () {
+    const contentArea = document.getElementById('dynamic-content-area');
+
+    function loadContent(url) {
+      // Show spinner and scroll down
+      contentArea.style.display = 'block';
+      contentArea.innerHTML = '<div style="text-align:center; padding:60px;"><i class="fa fa-circle-notch fa-spin fa-3x" style="color:#007B7A;"></i><div style="margin-top:16px; color:var(--text-3); font-weight:600;">Loading data...</div></div>';
+
+      // Fetch the page content
+      fetch(url)
+        .then(response => response.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+          // Extract the .tbl-wrap from the loaded page
+          const tableContent = doc.querySelector('.tbl-wrap');
+
+          if (tableContent) {
+            contentArea.innerHTML = '';
+            contentArea.appendChild(tableContent);
+
+            // Re-initialize DataTable for dynamically loaded tables
+            if (typeof $ !== 'undefined' && $.fn.dataTable) {
+              $(contentArea).find('table').DataTable({
+                "pageLength": 10,
+                "language": {
+                  "search": "",
+                  "searchPlaceholder": "Search records...",
+                  "lengthMenu": "Show _MENU_ entries"
+                },
+                "destroy": true
+              });
+            }
+
+            // Smooth scroll to the content area now that it is fully loaded
+            setTimeout(() => {
+              contentArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 50);
+          } else {
+            contentArea.innerHTML = '<div style="text-align:center; padding:40px; color:red;">Could not load the requested data.</div>';
+          }
+        })
+        .catch(err => {
+          contentArea.innerHTML = '<div style="text-align:center; padding:40px; color:red;">An error occurred while fetching data.</div>';
+        });
+    }
+
+    // Intercept clicks on navbar links and grid cards
+    const links = document.querySelectorAll('.tn-link, .card');
+    links.forEach(link => {
+      const href = link.getAttribute('href');
+      // Only intercept if it's one of the feature pages
+      if (href && href.startsWith('/myapp/pub_')) {
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+
+          // Update active state on navbar
+          document.querySelectorAll('.tn-link').forEach(l => l.classList.remove('active'));
+          if (this.classList.contains('tn-link')) {
+            this.classList.add('active');
+          } else {
+            // If a card was clicked, find the corresponding navbar link and make it active
+            const navLink = document.querySelector(`.tn-link[href="${href}"]`);
+            if (navLink) navLink.classList.add('active');
+          }
+
+          // Fluid Animation: Scroll up smoothly to hero banner first
+          const isScrolled = window.scrollY > 10;
+          if (isScrolled) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
           }
           
-          // Smooth scroll to the content area now that it is fully loaded
+          if (href === '/myapp/pub_homepage_get/') {
+            setTimeout(() => {
+              contentArea.style.display = 'none';
+              contentArea.innerHTML = '';
+            }, isScrolled ? 500 : 0);
+            return;
+          }
+          
+          // Wait for the scroll up animation to finish before rendering new content and scrolling down
           setTimeout(() => {
-            contentArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }, 50);
-        } else {
-          contentArea.innerHTML = '<div style="text-align:center; padding:40px; color:red;">Could not load the requested data.</div>';
-        }
-      })
-      .catch(err => {
-        contentArea.innerHTML = '<div style="text-align:center; padding:40px; color:red;">An error occurred while fetching data.</div>';
-      });
-  }
-
-  // Intercept clicks on navbar links and grid cards
-  const links = document.querySelectorAll('.tn-link, .card');
-  links.forEach(link => {
-    const href = link.getAttribute('href');
-    // Only intercept if it's one of the feature pages
-    if (href && href !== '/myapp/pub_homepage_get/' && href.startsWith('/myapp/pub_')) {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        // Update active state on navbar
-        document.querySelectorAll('.tn-link').forEach(l => l.classList.remove('active'));
-        if (this.classList.contains('tn-link')) {
-          this.classList.add('active');
-        } else {
-          // If a card was clicked, find the corresponding navbar link and make it active
-          const navLink = document.querySelector(`.tn-link[href="${href}"]`);
-          if (navLink) navLink.classList.add('active');
-        }
-
-        loadContent(href);
-      });
-    }
+            loadContent(href);
+          }, isScrolled ? 500 : 0);
+        });
+      }
+    });
   });
-});
 </script>
 {% endblock %}

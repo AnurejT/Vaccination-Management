@@ -8,10 +8,25 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 40px;
-    height: 80px;
-    background: #fff;
-    border-bottom: 1px solid var(--border);
+    padding: 0 30px;
+    height: 70px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.15));
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border-top: 1px solid rgba(255, 255, 255, 0.9);
+    border-left: 1px solid rgba(255, 255, 255, 0.9);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 99px;
+    box-shadow: 0 16px 40px rgba(5, 150, 105, 0.15), inset 0 4px 6px rgba(255, 255, 255, 0.5);
+    position: fixed;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 64px);
+    max-width: 1200px;
+    z-index: 1000;
+    transition: all 0.3s ease;
   }
   .tn-logo {
     display: flex;
@@ -81,41 +96,57 @@
   .tn-right {
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 16px;
   }
   .tn-bell {
-    font-size: 18px;
-    color: var(--text-2);
-    position: relative;
-    cursor: pointer;
-  }
-  .tn-bell::after {
-    content: '';
-    position: absolute;
-    top: -2px;
-    right: -2px;
-    width: 8px;
-    height: 8px;
-    background: #ef4444;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    border: 2px solid #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #475569;
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+  }
+  .tn-bell:hover { 
+    background: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+    color: #059669;
   }
   .tn-user {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     cursor: pointer;
+    padding: 4px 16px 4px 4px;
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 99px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+  }
+  .tn-user:hover {
+    background: #fff;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
   }
   .tn-avatar {
-    width: 32px;
-    height: 32px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
-    background: #d1fae5;
-    color: #059669;
+    background: linear-gradient(135deg, #059669, #10b981);
+    color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 14px;
+    box-shadow: 0 2px 6px rgba(5, 150, 105, 0.3);
     overflow: hidden;
   }
   .tn-avatar img {
@@ -125,14 +156,15 @@
   }
   .tn-username {
     font-size: 14px;
-    font-weight: 500;
-    color: var(--text-2);
+    font-weight: 600;
+    color: #0f172a;
   }
 
   .tn-hero {
     position: relative;
     width: 100%;
-    height: calc(100vh - 80px);
+    height: 100vh;
+    padding-top: 100px;
     background: #ecfdf5; /* Match user green gradient */
     display: flex;
     align-items: center;
@@ -201,36 +233,49 @@
     position: absolute;
     top: calc(100% - 10px);
     left: 0;
-    background: #fff;
-    border: 1px solid var(--border-light);
-    border-radius: 8px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    min-width: 200px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3));
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border-top: 1px solid rgba(255, 255, 255, 0.9);
+    border-left: 1px solid rgba(255, 255, 255, 0.9);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(5, 150, 105, 0.15), inset 0 2px 4px rgba(255, 255, 255, 0.5);
+    min-width: 220px;
     opacity: 0;
     visibility: hidden;
     flex-direction: column;
-    padding: 8px 0;
+    padding: 10px;
     z-index: 100;
-    transition: all 0.2s;
-    transform: translateY(10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(15px) scale(0.95);
+    transform-origin: top;
   }
   .tn-dropdown:hover .tn-dropdown-menu {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
   .tn-dropdown-item {
-    padding: 10px 20px;
-    color: var(--text-2);
+    padding: 10px 16px;
+    color: #1e293b;
     text-decoration: none;
-    font-size: 13px;
-    font-weight: 600;
-    transition: background 0.2s;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 10px;
+    transition: all 0.2s ease;
     display: block;
+    margin-bottom: 4px;
+  }
+  .tn-dropdown-item:last-child {
+    margin-bottom: 0;
   }
   .tn-dropdown-item:hover {
-    background: #ecfdf5;
+    background: rgba(255, 255, 255, 0.7);
     color: #059669;
+    transform: translateX(4px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   }
 </style>
 {% endblock %}
@@ -300,7 +345,7 @@
       <div class="tn-dropdown-menu" style="left:auto; right:0; top:calc(100% + 15px); min-width:160px;">
         <a href="/myapp/user_viewprofile_get/" class="tn-dropdown-item"><i class="fa fa-id-card" style="margin-right:8px;"></i> View Profile</a>
         <a href="/myapp/user_changepassword_get/" class="tn-dropdown-item"><i class="fa fa-lock" style="margin-right:8px;"></i> Change Password</a>
-        <div style="height:1px;background:var(--border-light);margin:4px 0;"></div>
+        <div style="height:1px;background:rgba(255,255,255,0.4);margin:6px 0;"></div>
         <a href="/myapp/logout/" class="tn-dropdown-item" style="color:#ef4444;"><i class="fa fa-right-from-bracket" style="margin-right:8px;"></i> Logout</a>
       </div>
     </div>
@@ -449,9 +494,18 @@ document.addEventListener("DOMContentLoaded", function() {
       }
       document.querySelectorAll('.tn-link').forEach(l => l.classList.remove('active'));
       if(link.classList.contains('tn-link')) link.classList.add('active');
-      contentArea.style.display = 'none';
-      contentArea.innerHTML = '';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      
+      // Fluid Animation: Scroll up smoothly to hero banner first
+      const isScrolled = window.scrollY > 10;
+      if (isScrolled) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      
+      // Wait for the scroll up animation to finish before clearing the content
+      setTimeout(() => {
+        contentArea.style.display = 'none';
+        contentArea.innerHTML = '';
+      }, isScrolled ? 500 : 0);
       return;
     }
     if (!href || href.startsWith('#') || href === '/myapp/logout/') return;
@@ -471,7 +525,16 @@ document.addEventListener("DOMContentLoaded", function() {
         }
       }
       
-      loadContent(href);
+      // Fluid Animation: Scroll up smoothly to hero banner first
+      const isScrolled = window.scrollY > 10;
+      if (isScrolled) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      
+      // Wait for the scroll up animation to finish before rendering new content and scrolling down
+      setTimeout(() => {
+        loadContent(href);
+      }, isScrolled ? 500 : 0);
     }
   });
 
