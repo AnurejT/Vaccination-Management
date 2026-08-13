@@ -1,7 +1,8 @@
 import smtplib
 
 from django.contrib import messages
-from django.contrib.auth import authenticate, logout, login, update_session_auth_hash
+from django.contrib.auth import authenticate, logout, login
+from django.contrib.auth.decorators import login_required
 from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render, redirect
 from datetime import datetime
@@ -179,33 +180,41 @@ def hospital_signup_post(request):
         messages.success(request, 'signup completed successfully!')
         return redirect('/myapp/Login_get/')
 
+@login_required(login_url='/myapp/Login_get/')
 def adm_viewusers_get(request):
     data = Users.objects.all()
     return render(request, 'admins/viewusers.html',{'data':data})
 
+@login_required(login_url='/myapp/Login_get/')
 def adm_viewhospitals_get(request):
     data = Hospital.objects.filter(status='pending')
     return render(request, 'admins/viewandverifyhospital.html', {'data': data})
 
+@login_required(login_url='/myapp/Login_get/')
 def adm_approvehospital_get(request,id):
     Hospital.objects.filter(id=id).update(status='approved')
     return redirect('/myapp/adm_viewhospitals_get/')
 
+@login_required(login_url='/myapp/Login_get/')
 def adm_viewacceptedhospitals_get(request):
     data = Hospital.objects.filter(status='approved')
     return render(request, 'admins/viewacceptedhospital.html', {'data': data})
 
+@login_required(login_url='/myapp/Login_get/')
 def adm_rejecthospital_get(request, id):
     Hospital.objects.filter(id=id).update(status='rejected')
     return redirect('/myapp/adm_viewhospitals_get/')
 
+@login_required(login_url='/myapp/Login_get/')
 def adm_viewrejectedhospitals_get(request):
     data = Hospital.objects.filter(status='rejected')
     return render(request, 'admins/viewrejectedhospitals.html', {'data': data})
 
+@login_required(login_url='/myapp/Login_get/')
 def adm_addvaccination_get(request):
     return render(request, 'admins/addvaccine.html')
 
+@login_required(login_url='/myapp/Login_get/')
 def adm_addvaccination_post(request):
     name = request.POST['name']
     vaccine_id = request.POST['vaccine id']
@@ -236,14 +245,17 @@ def adm_addvaccination_post(request):
     messages.success(request, 'Vaccine Added Successfully! ')
     return redirect('/myapp/adm_addvaccination_get/')
 
+@login_required(login_url='/myapp/Login_get/')
 def adm_viewvaccination_get(request):
     data = Vaccination.objects.all()
     return render(request, 'admins/viewvaccineandedit.html', {'data': data})
 
+@login_required(login_url='/myapp/Login_get/')
 def adm_editvaccine_get(request, id):
     data = Vaccination.objects.get(id=id)
     return render(request, 'admins/editvaccine.html', {'data': data})
 
+@login_required(login_url='/myapp/Login_get/')
 def adm_editvaccine_post(request):
     id = request.POST['id']
     name = request.POST['name']
@@ -274,14 +286,17 @@ def adm_editvaccine_post(request):
     messages.success(request, 'Vaccine edited successfully! ')
     return redirect('/myapp/adm_viewvaccination_get/')
 
+@login_required(login_url='/myapp/Login_get/')
 def adm_deletevaccine_post(request, id):
     Vaccination.objects.get(id=id).delete()
     return redirect('/myapp/adm_viewvaccination_get/')
 
+@login_required(login_url='/myapp/Login_get/')
 def adm_addcountryvaccine_get(request):
     data = Vaccination.objects.all()
     return render(request,'admins/addcountryvaccine.html', {'data':data})
 
+@login_required(login_url='/myapp/Login_get/')
 def adm_addcountryvaccine_post(request):
     country = request.POST['country']
     description = request.POST['description']
@@ -294,15 +309,18 @@ def adm_addcountryvaccine_post(request):
     a.save()
     return redirect('/myapp/adm_addcountryvaccine_get/')
 
+@login_required(login_url='/myapp/Login_get/')
 def adm_viewcountryvaccine_get(request):
     data = CountryVaccine.objects.all()
     return render(request, 'admins/viewcountryvaccineandedit.html', {'data':data})
 
+@login_required(login_url='/myapp/Login_get/')
 def adm_editcountryvaccine_get(request,id):
     data1 = Vaccination.objects.all()
     data2 = CountryVaccine.objects.get(id=id)
     return render(request, 'admins/editcountryvaccine.html', {'data2': data2,'data1':data1})
 
+@login_required(login_url='/myapp/Login_get/')
 def adm_editcountryvaccine_post(request):
     id = request.POST['id']
     vaccine = request.POST['vaccine name']
@@ -317,25 +335,31 @@ def adm_editcountryvaccine_post(request):
     a.save()
     return redirect('/myapp/adm_viewcountryvaccine_get/')
 
+@login_required(login_url='/myapp/Login_get/')
 def adm_deletecountryvaccine_post(request, id):
     CountryVaccine.objects.get(id=id).delete()
     return redirect('/myapp/adm_viewcountryvaccine_get/')
 
+@login_required(login_url='/myapp/Login_get/')
 def adm_viewbookingreport_get(request):
     data = Booking.objects.all()
     return render(request, 'admins/viewbookingreport.html', {'data':data})
 
+@login_required(login_url='/myapp/Login_get/')
 def adm_viewvaccinereport_get(request):
     data = Vaccination.objects.all()
     return render(request, 'admins/viewvaccinereport.html', {'data':data})
 
+@login_required(login_url='/myapp/Login_get/')
 def adm_viewvaccinestock_get(request):
     data = Stock.objects.all()
     return render(request, 'admins/viewvaccinestock.html', {'data':data})
 
+@login_required(login_url='/myapp/Login_get/')
 def adm_changepassword_get(request):
     return render(request, 'admins/changepassword.html')
 
+@login_required(login_url='/myapp/Login_get/')
 def adm_changepassword_post(request):
     current_password = request.POST['current password']
     new_password = request.POST['new password']
@@ -354,6 +378,7 @@ def adm_changepassword_post(request):
     else:
         return redirect('/myapp/adm_homepage_get/')
 
+@login_required(login_url='/myapp/Login_get/')
 def adm_homepage_get(request):
     return render(request, 'admins/adminhomepage.html')
 
